@@ -730,7 +730,7 @@ function adminPrintEditionsList(){
 }
 
 $(document).ready(function () {
-  if(document.title == "Typer Cup | Admin"){
+  if(document.title == "Typer Cup-DEV | Admin"){
     adminGetAllRandomCodes()
     adminSelectTeams();
     adminListTeams();
