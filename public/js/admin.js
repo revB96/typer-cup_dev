@@ -50,7 +50,8 @@ function adminListTeams() {
 function adminListDictionary() {
   var counter;
   $("#admin-dictionary-list").html("");
-  getDictionary().then((result) => {
+  getAllDictionary().then((result) => {
+    console.log(result)
     for (const [index, dictionary] of Object.entries(result)) {
       counter = parseInt(index, 10);
       $("#admin-team-list").append(`

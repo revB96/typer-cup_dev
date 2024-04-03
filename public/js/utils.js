@@ -557,9 +557,24 @@ function getCountFinishedRound(){
     })
 }
 
-function getDictionary() {
+function getAllDictionary() {
     return $.ajax({
         url: `/api/dictionary?type=all`,
+        method: 'get',
+        contentType: "application/json",
+        dataType: 'json',
+        success: function (result) {
+            return result;
+        },
+        fail: function (){
+            console.log("Nie udało się pobrać");
+        }
+    })
+}
+
+function getDictionaryByType(type) {
+    return $.ajax({
+        url: `/api/dictionary?type=${type}`,
         method: 'get',
         contentType: "application/json",
         dataType: 'json',
