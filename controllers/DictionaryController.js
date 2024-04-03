@@ -38,9 +38,18 @@ function getDictionaryByType(type) {
   return def.promise;
 }
 
+function getDictionaryByParam1(param1) {
+  var def = Q.defer();
+  Dictionary.findOne({ param1: param1 })
+    .exec(function (err, data) {
+        err ? def.reject(err) : def.resolve(data);
+    });
+  return def.promise;
+}
 
 module.exports = {
   add,
   getAll,
   getDictionaryByType,
+  getDictionaryByParam1
 };

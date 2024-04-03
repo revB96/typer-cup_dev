@@ -971,6 +971,7 @@ $(document).ready(function () {
             `);
       $(".toast").toast("show");
       adminListDictionary();
+      adminGetNationalTeamsDictionary();
     });
   });
 
