@@ -14,8 +14,22 @@ const RandomCode = require("../controllers/RandomCodeController")
 const Site = require("../controllers/SiteController")
 const History = require("../controllers/HistoryController")
 const Dictionary = require("../controllers/DictionaryController")
+const jwt = require("jsonwebtoken");
 
-router.post('/admin/schedule/add', function (req, res) {
+
+function authenticate(req, res, next) {
+    const token = req.cookies.access_token;
+  
+    if (token === null) return res.redirect("/login");
+  
+    jwt.verify(token, process.env.SECRET_TOKEN, (err, user) => {
+      if (err) return res.json("unauthorized")
+      req.user = user;
+      next();
+    });
+  }
+
+router.post('/admin/schedule/add', authenticate, function (req, res) {
     //console.log(req.body)
     Schedule.add(req.body)
         .then(data => {
@@ -27,7 +41,7 @@ router.post('/admin/schedule/add', function (req, res) {
 })
 
 
-router.get('/schedule/list/', function (req, res) {
+router.get('/schedule/list/', authenticate, function (req, res) {
     if (typeof req.query.group !== "undefined")
     {
         Schedule.getGroupSchedule(req.query.group)
