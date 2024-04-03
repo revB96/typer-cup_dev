@@ -559,7 +559,8 @@ function getCountFinishedRound(){
 
 function getDictionary() {
     return $.ajax({
-        url: `/api/dictionary`,
+        url: `/api/dictionary?type=all`,
+        method: 'get',
         contentType: "application/json",
         dataType: 'json',
         success: function (result) {
