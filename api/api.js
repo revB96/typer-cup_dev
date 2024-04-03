@@ -23,7 +23,7 @@ function authenticate(req, res, next) {
     if (token === null) return res.redirect("/login");
   
     jwt.verify(token, process.env.SECRET_TOKEN, (err, user) => {
-      if (err) return res.json("unauthorized")
+      if (err) return res.send(401)
       req.user = user;
       next();
     });
@@ -62,7 +62,7 @@ router.get('/schedule/list/', authenticate, function (req, res) {
     }
 })
 
-router.get('/dictionary', function (req, res) {
+router.get('/dictionary', authenticate, function (req, res) {
     if (typeof req.query.type !== "undefined")
     {
         Dictionary.getAll()
@@ -83,7 +83,7 @@ router.get('/dictionary', function (req, res) {
     }
 })
 
-router.post('/admin/dictionary', function (req, res) {
+router.post('/admin/dictionary', authenticate, function (req, res) {
 
     Dictionary.add(req.body)
         .then(data => {
@@ -95,7 +95,7 @@ router.post('/admin/dictionary', function (req, res) {
     
 })
 
-router.get('/schedule/round', function (req, res) {
+router.get('/schedule/round', authenticate, function (req, res) {
     Schedule.getRoundSchedule(req.query.roundDate)
             .then(data => {
                 res.json(data)
@@ -105,7 +105,7 @@ router.get('/schedule/round', function (req, res) {
             }); 
 })
 
-router.get('/schedule/get18', function (req, res) {
+router.get('/schedule/get18', authenticate, function (req, res) {
     Schedule.get18()
             .then(data => {
                 res.json(data)
@@ -115,7 +115,7 @@ router.get('/schedule/get18', function (req, res) {
             }); 
 })
 
-router.get('/schedule/get14', function (req, res) {
+router.get('/schedule/get14', authenticate, function (req, res) {
     Schedule.get14()
             .then(data => {
                 res.json(data)
@@ -125,7 +125,7 @@ router.get('/schedule/get14', function (req, res) {
             }); 
 })
 
-router.get('/schedule/get12', function (req, res) {
+router.get('/schedule/get12', authenticate, function (req, res) {
     Schedule.get12()
             .then(data => {
                 res.json(data)
@@ -135,7 +135,7 @@ router.get('/schedule/get12', function (req, res) {
             }); 
 })
 
-router.get('/schedule/getFinal', function (req, res) {
+router.get('/schedule/getFinal', authenticate, function (req, res) {
     Schedule.getFinal()
             .then(data => {
                 res.json(data)
@@ -145,7 +145,7 @@ router.get('/schedule/getFinal', function (req, res) {
             }); 
 })
 
-router.get('/schedule/knockout', function (req, res) {
+router.get('/schedule/knockout', authenticate, function (req, res) {
     Round.getKnockoutSchedule(req.query.stage)
             .then(data => {
                 //console.log(data)
@@ -156,7 +156,7 @@ router.get('/schedule/knockout', function (req, res) {
             }); 
 })
 
-router.get('/round/checkifopen', function (req, res) {
+router.get('/round/checkifopen', authenticate, function (req, res) {
     Ticket.checkIfRoundIsOpen(req.query.userId)
         .then(data => {
             res.json(data)
@@ -167,7 +167,7 @@ router.get('/round/checkifopen', function (req, res) {
            
 })
 
-router.post('/admin/teams/add', function (req, res) {
+router.post('/admin/teams/add', authenticate, function (req, res) {
     //console.log(req.body)
     Team.add(req.body)
         .then(data => {
@@ -178,7 +178,7 @@ router.post('/admin/teams/add', function (req, res) {
         });
 })
 
-router.get('/teams/list', function (req, res) {
+router.get('/teams/list', authenticate, function (req, res) {
     Team.getAll()
         .then(data => {
             res.json(data)
@@ -188,7 +188,7 @@ router.get('/teams/list', function (req, res) {
         });
 })
 
-router.get('/teams/', function (req, res) {
+router.get('/teams/', authenticate, function (req, res) {
     if (typeof req.query.group !== "undefined")
     {
         Team.getGroup(req.query.group)
@@ -201,7 +201,7 @@ router.get('/teams/', function (req, res) {
     }
 })
 
-router.post('/admin/round/add', function (req, res) {
+router.post('/admin/round/add', authenticate, function (req, res) {
 
     Round.add(req.body)
         .then(data => {
@@ -213,7 +213,7 @@ router.post('/admin/round/add', function (req, res) {
     
 })
 
-router.get('/round/get', function (req, res) {
+router.get('/round/get', authenticate, function (req, res) {
     if(!!req.query.state)
         Round.getRound(req.query.state)
             .then(data => {
@@ -233,7 +233,7 @@ router.get('/round/get', function (req, res) {
     
 })
 
-router.post('/admin/round/changestatus', function (req, res) {
+router.post('/admin/round/changestatus', authenticate, function (req, res) {
 
     Round.changeStatus(req.query.roundId, req.query.status)
         .then(data => {
@@ -257,7 +257,7 @@ router.get('/admin/user', function (req, res) {
     
 })
 
-router.get('/admin/quiz/close', function (req, res) {
+router.get('/admin/quiz/close', authenticate, function (req, res) {
     Quiz.closeQuiz()
         .then(data => {
             res.json(data)
@@ -268,7 +268,7 @@ router.get('/admin/quiz/close', function (req, res) {
     
 })
 
-router.post('/admin/user/add', function (req, res) {
+router.post('/admin/user/add', authenticate, function (req, res) {
     //console.log(req.body)
     User.add(req.body)
         .then(data => {
@@ -280,7 +280,7 @@ router.post('/admin/user/add', function (req, res) {
     
 })
 
-router.post('/admin/user/edit', function (req, res) {
+router.post('/admin/user/edit', authenticate, function (req, res) {
     //console.log(req.body)
     User.update(req.body)
         .then(data => {
@@ -292,7 +292,7 @@ router.post('/admin/user/edit', function (req, res) {
     
 })
 
-router.post('/admin/user/reset-password', function (req, res) {
+router.post('/admin/user/reset-password', authenticate, function (req, res) {
     User.resetPassword(req.query.id)
         .then(data => {
             res.json(data)
@@ -303,12 +303,12 @@ router.post('/admin/user/reset-password', function (req, res) {
     
 })
 
-router.post('/admin/test/sendRoundNotification', function (req, res) {
+router.post('/admin/test/sendRoundNotification', authenticate, function (req, res) {
     //console.log(req.body)
     User.testRoundEmailNotification()
 })
 
-router.post('/user/changepassword', function (req, res) {
+router.post('/user/changepassword', authenticate, function (req, res) {
     User.changePassword(req.body)
         .then(data => {
             res.json(data)
@@ -319,7 +319,7 @@ router.post('/user/changepassword', function (req, res) {
     
 })
 
-router.post('/user/change-email', function (req, res) {
+router.post('/user/change-email', authenticate, function (req, res) {
     User.updateEmail(req.body)
         .then(data => {
             res.json(data)
@@ -330,7 +330,7 @@ router.post('/user/change-email', function (req, res) {
     
 })
 
-router.get('/user/email', function (req, res) {
+router.get('/user/email', authenticate, function (req, res) {
     User.getUserEmail(req.query.id)
         .then(data => {
             res.json(data)
@@ -341,7 +341,7 @@ router.get('/user/email', function (req, res) {
     
 })
 
-router.get('/user', function (req, res) {
+router.get('/user', authenticate, function (req, res) {
     User.getUserDetails(req.query.id)
         .then(data => {
             res.json(data)
@@ -352,7 +352,7 @@ router.get('/user', function (req, res) {
     
 })
 
-router.get('/user/timezone', function (req, res) {
+router.get('/user/timezone', authenticate, function (req, res) {
     User.getUserTimezone(req.query.userId)
         .then(data => {
             res.json(data)
@@ -363,7 +363,7 @@ router.get('/user/timezone', function (req, res) {
     
 })
 
-router.get('/user/tickets', function (req, res) {
+router.get('/user/tickets', authenticate, function (req, res) {
     Ticket.getAllUserTickets(req.query.userId)
         .then(data => {
             res.json(data)
@@ -374,7 +374,7 @@ router.get('/user/tickets', function (req, res) {
     
 })
 
-router.get('/score/schedule', function (req, res) {
+router.get('/score/schedule', authenticate, function (req, res) {
     Score.getScheduleScore(req.query.id)
         .then(data => {
             res.json(data)
@@ -385,7 +385,7 @@ router.get('/score/schedule', function (req, res) {
     
 })
 
-router.get('/user-notifications', function (req, res) {
+router.get('/user-notifications', authenticate, function (req, res) {
     User.getUserNotifications(req.query.id)
         .then(data => {
             res.json(data)
@@ -396,7 +396,7 @@ router.get('/user-notifications', function (req, res) {
     
 })
 
-router.post('/ticket/add', function (req, res) {
+router.post('/ticket/add', authenticate, function (req, res) {
     Ticket.add(req.body)
         .then(data => {
             res.json(data)
@@ -408,7 +408,7 @@ router.post('/ticket/add', function (req, res) {
     
 })
 
-router.get('/tickets/stats', function (req, res) {
+router.get('/tickets/stats', authenticate, function (req, res) {
     //console.log(req.query.scheduleId)
     Ticket.getTicketStats(req.query.scheduleId)
         .then(data => {
@@ -420,7 +420,7 @@ router.get('/tickets/stats', function (req, res) {
         });
 })
 
-router.get('/tickets', function (req, res) {
+router.get('/tickets', authenticate, function (req, res) {
     if((!!req.query.userId)&(!!req.query.round))
         Ticket.getUserTicketsByRound(req.query.userId, req.query.round)
             .then(data => {
@@ -440,7 +440,7 @@ router.get('/tickets', function (req, res) {
     
 })
 
-router.post('/admin/score/add', function (req, res) {
+router.post('/admin/score/add', authenticate, function (req, res) {
     Score.add(req.body)
         .then(data => {
             res.json(data)
@@ -451,7 +451,7 @@ router.post('/admin/score/add', function (req, res) {
     
 })
 
-router.get('/scores', function (req, res) {
+router.get('/scores', authenticate, function (req, res) {
 
   Score.getAll(req.body)
     .then(data => {
@@ -463,7 +463,7 @@ router.get('/scores', function (req, res) {
     
 })
 
-router.get('/admin/backups', function (req, res) {
+router.get('/admin/backups', authenticate, function (req, res) {
     Backup.getBackupsList(req.body)
         .then(data => {
             res.json(data)
@@ -474,7 +474,7 @@ router.get('/admin/backups', function (req, res) {
     
 })
 
-router.post('/admin/backups/create', function (req, res) {
+router.post('/admin/backups/create', authenticate, function (req, res) {
     Backup.dumpMongo2Localfile(req.body)
         .then(data => {
             res.json(data)
@@ -485,7 +485,7 @@ router.post('/admin/backups/create', function (req, res) {
     
 })
 
-router.post('/admin/backups/restore', function (req, res) {
+router.post('/admin/backups/restore', authenticate, function (req, res) {
     //console.log(req.query.fileName)
     Backup.restoreLocalfile2Mongo(req.query.fileName)
         .then(data => {
@@ -499,7 +499,7 @@ router.post('/admin/backups/restore', function (req, res) {
     
 })
 
-router.post('/admin/backups/restoreToBackup', function (req, res) {
+router.post('/admin/backups/restoreToBackup', authenticate, function (req, res) {
     //console.log(req.query.fileName)
     Backup.restoreToBackupDatabase(req.query.fileName)
         .then(data => {
@@ -513,7 +513,7 @@ router.post('/admin/backups/restoreToBackup', function (req, res) {
     
 })
 
-router.get('/user/table', function (req, res) {
+router.get('/user/table', authenticate, function (req, res) {
     UserStats.getAll(req.body)
         .then(data => {
             res.json(data)
@@ -524,7 +524,7 @@ router.get('/user/table', function (req, res) {
     
 })
 
-router.get('/user/get-all-usernames', function (req, res) {
+router.get('/user/get-all-usernames', authenticate, function (req, res) {
     User.getAllUsernames(req.body)
         .then(data => {
             res.json(data)
@@ -535,7 +535,7 @@ router.get('/user/get-all-usernames', function (req, res) {
     
 })
 
-router.post('/admin/user/reset-stats', function (req, res) {
+router.post('/admin/user/reset-stats', authenticate, function (req, res) {
     UserStats.resetUserStats(req.query.id)
         .then(data => {
             res.json(data)
@@ -546,7 +546,7 @@ router.post('/admin/user/reset-stats', function (req, res) {
     
 })
 
-router.get('/round/last', function (req, res) {
+router.get('/round/last', authenticate, function (req, res) {
     Round.countFinishedRounds()
         .then(data => {
             res.json(data)
@@ -557,7 +557,7 @@ router.get('/round/last', function (req, res) {
     
 })
 
-router.get('/round/finished/count', function (req, res) {
+router.get('/round/finished/count', authenticate, function (req, res) {
     Round.countFinishedRounds()
         .then(data => {
             res.json(data)
@@ -569,7 +569,7 @@ router.get('/round/finished/count', function (req, res) {
 })
 
 
-router.post('/user/notification/toggle', function (req, res) {
+router.post('/user/notification/toggle', authenticate, function (req, res) {
     User.toogleNotification(req.query.name,req.query.userId)
         .then(data => {
             res.json(data)
@@ -580,7 +580,7 @@ router.post('/user/notification/toggle', function (req, res) {
     
 })
 
-router.post('/admin/addstats/:id/:points', function (req, res) {
+router.post('/admin/addstats/:id/:points', authenticate, function (req, res) {
     UserStats.updateUserStats(req.id, req.points)
         .then(data => {
             res.json(data)
@@ -591,7 +591,7 @@ router.post('/admin/addstats/:id/:points', function (req, res) {
     
 })
 
-router.delete('/admin/teamstats/reset', function (req, res) {
+router.delete('/admin/teamstats/reset', authenticate, function (req, res) {
     Team.resetTeamsStats()
 })
 
@@ -606,7 +606,7 @@ router.post('/admin/quiz/add', function (req, res) {
     
 })
 
-router.post('/quiz/add', function (req, res) {
+router.post('/quiz/add', authenticate, function (req, res) {
     Quiz.addUserQuiz(req.body)
         .then(data => {
             res.json(data)
@@ -617,7 +617,7 @@ router.post('/quiz/add', function (req, res) {
     
 })
 
-router.get('/quiz/questions', function (req, res) {
+router.get('/quiz/questions', authenticate, function (req, res) {
     Quiz.getAllQuestions()
         .then(data => {
             res.json(data)
@@ -628,7 +628,7 @@ router.get('/quiz/questions', function (req, res) {
     
 })
 
-router.get('/quiz/answers', function (req, res) {
+router.get('/quiz/answers', authenticate, function (req, res) {
     Quiz.getUserAnswers(req.query.userId)
         .then(data => {
             res.json(data)
@@ -639,7 +639,7 @@ router.get('/quiz/answers', function (req, res) {
     
 })
 
-router.get('/quiz/correctAnswers', function (req, res) {
+router.get('/quiz/correctAnswers', authenticate, function (req, res) {
     UserStats.getUserCorrectAnswers(req.query.user)
         .then(data => {
             res.json(data)
@@ -650,7 +650,7 @@ router.get('/quiz/correctAnswers', function (req, res) {
     
 })
 
-router.post('/admin/quiz/answer/add', function (req, res) {
+router.post('/admin/quiz/answer/add', authenticate, function (req, res) {
     Quiz.addAnswer(req.body)
         .then(data => {
             res.json(data)
@@ -661,7 +661,7 @@ router.post('/admin/quiz/answer/add', function (req, res) {
     
 })
 
-router.get('/admin/quiz/addpoints', function (req, res) {
+router.get('/admin/quiz/addpoints', authenticate, function (req, res) {
     Quiz.addQuizPoints()
         .then(data => {
             res.json(data)
@@ -672,7 +672,7 @@ router.get('/admin/quiz/addpoints', function (req, res) {
     
 })
 
-router.get('/admin/randomCodes', function (req, res) {
+router.get('/admin/randomCodes', authenticate, function (req, res) {
     RandomCode.getAll()
         .then(data => {
             res.json(data)
@@ -683,7 +683,7 @@ router.get('/admin/randomCodes', function (req, res) {
     
 })
 
-router.get('/admin/site/edition/get', function (req, res) {
+router.get('/admin/site/edition/get', authenticate, function (req, res) {
     Site.getAllEditions(req.body)
         .then(data => {
             res.json(data)
@@ -695,7 +695,7 @@ router.get('/admin/site/edition/get', function (req, res) {
 })
 
 
-router.post('/admin/site/edition/setActive', function (req, res) {
+router.post('/admin/site/edition/setActive', authenticate, function (req, res) {
     Site.setActiveEdition(req.body)
         .then(data => {
             res.json(data)
@@ -706,7 +706,7 @@ router.post('/admin/site/edition/setActive', function (req, res) {
     
 })
 
-router.post('/admin/site/archive/transfer-current-edition', function (req, res) {
+router.post('/admin/site/archive/transfer-current-edition', authenticate, function (req, res) {
     History.transferToHistory()
         .then(data => {
             res.json(data)
@@ -717,7 +717,7 @@ router.post('/admin/site/archive/transfer-current-edition', function (req, res) 
     
 })
 
-router.get('/archive/get', function (req, res) {
+router.get('/archive/get', authenticate, function (req, res) {
     History.getEditionDetails(req.query.edition)
         .then(data => {
             res.json(data)
@@ -728,7 +728,7 @@ router.get('/archive/get', function (req, res) {
     
 })
 
-router.post('/admin/site/edition/add', function (req, res) {
+router.post('/admin/site/edition/add', authenticate, function (req, res) {
     Site.addEdition(req.body)
         .then(data => {
             res.json(data)
@@ -739,7 +739,7 @@ router.post('/admin/site/edition/add', function (req, res) {
     
 })
 
-router.get('/admin/test/testGetUserTicketBetweenDates', function (req, res) {
+router.get('/admin/test/testGetUserTicketBetweenDates', authenticate, function (req, res) {
     Ticket.testGetUserTicketBetweenDates()
         .then(data => {
             res.json(data)
