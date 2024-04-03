@@ -63,7 +63,6 @@ router.get('/schedule/list/', authenticate, function (req, res) {
 })
 
 router.get('/dictionary', authenticate, function (req, res) {
-    console.log(req.query.type)
     if (req.query.type == "all")
     {
         Dictionary.getAll()

@@ -47,11 +47,22 @@ function adminListTeams() {
   });
 }
 
+function adminGetNationalTeamsDictionary() {
+  $("#nationalTeamslistOptions").html("");
+  getDictionaryByType("country").then((result) => {
+    for (const [index, dictionary] of Object.entries(result)) {
+      counter = parseInt(index, 10);
+      $("#nationalTeamslistOptions").append(`
+        <option value="${dictionary.param1}">
+                `);
+    }
+  });
+}
+
 function adminListDictionary() {
   var counter;
   $("#admin-dictionary-list").html("");
   getAllDictionary().then((result) => {
-    console.log(result)
     for (const [index, dictionary] of Object.entries(result)) {
       counter = parseInt(index, 10);
       $("#admin-dictionary-list").append(`
@@ -765,6 +776,7 @@ $(document).ready(function () {
     adminGetSelectEditions();
     adminPrintEditionsList();
     adminListDictionary();
+    adminGetNationalTeamsDictionary();
 
   $("#add-quiz-answer-form").submit(function (e) {
     e.preventDefault();
