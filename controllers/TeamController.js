@@ -23,10 +23,10 @@ function add(formData) {
     });
   
     console.log("Dodano reprezentacje");
-  
-    return def.promise;
   })
   
+  return def.promise;
+
 }
 
 function getAll() {
