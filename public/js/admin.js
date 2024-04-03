@@ -47,6 +47,24 @@ function adminListTeams() {
   });
 }
 
+function adminListDictionary() {
+  var counter;
+  $("#admin-dictionary-list").html("");
+  getDictionary().then((result) => {
+    for (const [index, dictionary] of Object.entries(result)) {
+      counter = parseInt(index, 10);
+      $("#admin-team-list").append(`
+                    <tr>
+                        <th scope="row">${counter + 1}</th>
+                        <td>${dictionary.type}</td>
+                        <td>${dictionary.param1}</td> 
+                        <td>${dictionary.param2}</td> 
+                    </tr>
+                `);
+    }
+  });
+}
+
 function adminGetSchedule() {
   var counter,
   played = "";
@@ -745,6 +763,7 @@ $(document).ready(function () {
     adminPrintEditions();
     adminGetSelectEditions();
     adminPrintEditionsList();
+    adminListDictionary();
 
   $("#add-quiz-answer-form").submit(function (e) {
     e.preventDefault();
@@ -919,6 +938,26 @@ $(document).ready(function () {
             `);
       $(".toast").toast("show");
       adminListTeams();
+    });
+  });
+
+  $("#addDictionaryForm").submit(function (e) {
+    e.preventDefault();
+    const formData = $("#addDictionaryForm").serializeArray();
+    $.post("/api/admin/dictionary", formData).done(() => {
+      $(".toast").html(`
+                <div class="toast-header">
+                <strong class="mr-auto">Panel administratora</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="toast-body">
+                Dodano nowy wpis w słowniku
+                </div>
+            `);
+      $(".toast").toast("show");
+      adminListDictionary();
     });
   });
 

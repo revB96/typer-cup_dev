@@ -13,6 +13,7 @@ const Backup = require("../controllers/BackupController")
 const RandomCode = require("../controllers/RandomCodeController")
 const Site = require("../controllers/SiteController")
 const History = require("../controllers/HistoryController")
+const Dictionary = require("../controllers/DictionaryController")
 
 router.post('/admin/schedule/add', function (req, res) {
     //console.log(req.body)
@@ -45,6 +46,39 @@ router.get('/schedule/list/', function (req, res) {
                 res.json(err)
             }); 
     }
+})
+
+router.get('/dictionary', function (req, res) {
+    if (typeof req.query.type !== "undefined")
+    {
+        Dictionary.getAll()
+            .then(data => {
+                res.json(data)
+            })
+            .catch(err => {
+                res.json(err)
+            });
+    }else{
+        Dictionary.getDictionaryByType(req.query.type)
+            .then(data => {
+                res.json(data)
+            })
+            .catch(err => {
+                res.json(err)
+            });
+    }
+})
+
+router.post('/admin/dictionary', function (req, res) {
+
+    Dictionary.add(req.body)
+        .then(data => {
+            res.json(data)
+        })
+        .catch(err => {
+            res.json(err)
+        });
+    
 })
 
 router.get('/schedule/round', function (req, res) {
