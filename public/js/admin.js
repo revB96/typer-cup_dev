@@ -54,7 +54,7 @@ function adminListDictionary() {
     console.log(result)
     for (const [index, dictionary] of Object.entries(result)) {
       counter = parseInt(index, 10);
-      $("#admin-team-list").append(`
+      $("#admin-dictionary-list").append(`
                     <tr>
                         <th scope="row">${counter + 1}</th>
                         <td>${dictionary.type}</td>
