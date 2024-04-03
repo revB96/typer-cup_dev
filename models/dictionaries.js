@@ -5,6 +5,6 @@ var dictionarySchema = new mongoose.Schema({
     param1: String,
     param2: String,
 });
-var DictionarySchema = mongoose.model('Edition', dictionarySchema);
+var DictionarySchema = mongoose.model('dictionary', dictionarySchema);
 
 module.exports = DictionarySchema;
