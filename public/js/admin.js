@@ -438,7 +438,7 @@ function adminGetQuestions() {
                         <input class="form-control" list="answerOptions" id="answer-${question._id}" id="answer-${question._id}" placeholder="Type to search...">
                         <datalist id="answerOptions">`
 
-          getDictionaryTypes().then((result) => {
+          getDictionaryByType(question.dictionary).then((result) => {
             for (const [index, dictionary] of Object.entries(result)) {
               questionType += `<option value="${dictionary.param1}">`
             }
