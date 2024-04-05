@@ -92,9 +92,9 @@ async function dumpMongo2Localfile(formData) {
     var path;
 
     if(!!formData.backupName)
-        path = `/www/typer-cup.pl/backups/${formData.backupName}.tar`
+        path = `./backups/${formData.backupName}.tar`
     else
-        path = `/www/typer-cup.pl/backups/backup_${timestamp}.tar`
+        path = `./backups/backup_${timestamp}.tar`
 
     const mongo_connector = new MongoDBDuplexConnector({
         connection: {
@@ -125,7 +125,7 @@ function getBackupsList(){
     var def = Q.defer();
     //const directoryPath = '/media/data/Projekty/ligatypera/dbBackup';
 
-    const directoryPath = '/www/typer-cup.pl/backups';
+    const directoryPath = './backups';
     //passsing directoryPath and callback function
     fs.readdir(directoryPath, function (err, files) {
         //console.log(files)
