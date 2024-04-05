@@ -443,7 +443,7 @@ function adminGetQuestions() {
               questionType += `<option value="${dictionary.param1}">`
             }
           })
-            questionType=`</datalist>`
+            questionType +=`</datalist>`
         }
         if(question.correctAnswer == ""){
             correctAnswer = `<a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvas-${question._id}" role="button" aria-controls="offcanvas-${question._id}">
