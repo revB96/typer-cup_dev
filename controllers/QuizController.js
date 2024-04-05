@@ -9,6 +9,7 @@ const User = require("./UserController.js");
 function addQuestion(formData){
     var def = Q.defer();
     var question = new Question({
+        position : formData.position,
         question : formData.question,
         type : formData.questionType,
         dictionary : formData.questionDictionary,
@@ -60,6 +61,7 @@ function getAllQuestions(){
     var def = Q.defer();
     Question
         .find()
+        .sort({position:"desc"})
         .exec(function (err, questions) {
             err ? def.reject(err) : def.resolve(questions);
     });

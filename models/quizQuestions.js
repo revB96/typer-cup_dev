@@ -5,7 +5,8 @@ var QuizQuestionSchema = new mongoose.Schema({
     correctAnswer: {type: String, default: ""},
     type: {type: String, required: true },
     dictionary: {type: String},
-    closed: {type: Boolean, default: false}
+    closed: {type: Boolean, default: false},
+    position: {type: Number, reguired: true}
 });
 var QuizQuestionSchema = mongoose.model('QuizQuestions', QuizQuestionSchema);
 
