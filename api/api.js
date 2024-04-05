@@ -83,6 +83,19 @@ router.get('/dictionary', authenticate, function (req, res) {
     }
 })
 
+router.get('/dictionary/type', authenticate, function (req, res) {
+    if (req.query.scope == "all")
+    {
+        Dictionary.getDictionaryTypes()
+            .then(data => {
+                res.json(data)
+            })
+            .catch(err => {
+                res.json(err)
+            });
+    }
+})
+
 router.post('/admin/dictionary', authenticate, function (req, res) {
 
     Dictionary.add(req.body)

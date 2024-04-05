@@ -28,6 +28,14 @@ function getAll() {
   return def.promise;
 }
 
+function getDictionaryTypes() {
+  var def = Q.defer();
+  Dictionary.find().sort({type:"desc"}).distinct("type").exec(function (err, data) {
+    err ? def.reject(err) : def.resolve(data);
+  });
+  return def.promise;
+}
+
 function getDictionaryByType(type) {
   var def = Q.defer();
   Dictionary.find({ type: type })
@@ -51,5 +59,6 @@ module.exports = {
   add,
   getAll,
   getDictionaryByType,
-  getDictionaryByParam1
+  getDictionaryByParam1,
+  getDictionaryTypes
 };

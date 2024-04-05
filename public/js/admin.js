@@ -59,6 +59,18 @@ function adminGetNationalTeamsDictionary() {
   });
 }
 
+function adminGetQuizQuestionDictionaryTypes() {
+  $("#questionDictionary").html("");
+  getDictionaryByTypes().then((result) => {
+    for (const [index, dictionary] of Object.entries(result)) {
+      counter = parseInt(index, 10);
+      $("#questionDictionary").append(`
+      <option value="${result._id}">${result.type}</option>
+                `);
+    }
+  });
+}
+
 function adminListDictionary() {
   var counter;
   $("#admin-dictionary-list").html("");
@@ -777,6 +789,7 @@ $(document).ready(function () {
     adminPrintEditionsList();
     adminListDictionary();
     adminGetNationalTeamsDictionary();
+    adminGetQuizQuestionDictionaryTypes()
 
   $("#add-quiz-answer-form").submit(function (e) {
     e.preventDefault();
