@@ -61,7 +61,7 @@ function adminGetNationalTeamsDictionary() {
 
 function adminGetQuizQuestionDictionaryTypes() {
   $("#questionDictionary").html("");
-  getDictionaryByTypes().then((result) => {
+  getDictionaryTypes().then((result) => {
     for (const [index, dictionary] of Object.entries(result)) {
       counter = parseInt(index, 10);
       $("#questionDictionary").append(`
