@@ -11,6 +11,7 @@ function addQuestion(formData){
     var question = new Question({
         question : formData.question,
         type : formData.questionType,
+        dictionary : formData.questionDictionary,
     })
 
     question.save((function(err, result){
