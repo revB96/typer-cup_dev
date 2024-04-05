@@ -60,12 +60,12 @@ function adminGetNationalTeamsDictionary() {
 }
 
 function adminGetQuizQuestionDictionaryTypes() {
-  $("#questionDictionary").html("");
+  $("#questionDictionary").html(`<option value="n/a"></option>`);
   getDictionaryTypes().then((result) => {
     for (const [index, dictionary] of Object.entries(result)) {
       console.log(result)
       $("#questionDictionary").append(`
-      <option value="${result[index]}">${result[index]}</option>
+      <option value="${dictionary}">${dictionary}</option>
                 `);
     }
   });
@@ -985,6 +985,7 @@ $(document).ready(function () {
       $(".toast").toast("show");
       adminListDictionary();
       adminGetNationalTeamsDictionary();
+      adminGetQuizQuestionDictionaryTypes();
     });
   });
 
