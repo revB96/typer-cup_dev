@@ -63,10 +63,9 @@ function adminGetQuizQuestionDictionaryTypes() {
   $("#questionDictionary").html("");
   getDictionaryTypes().then((result) => {
     for (const [index, dictionary] of Object.entries(result)) {
-      counter = parseInt(index, 10);
       console.log(result)
       $("#questionDictionary").append(`
-      <option value="${result}">${result}</option>
+      <option value="${result[index]}">${result[index]}</option>
                 `);
     }
   });
