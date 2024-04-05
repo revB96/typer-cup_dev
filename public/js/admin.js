@@ -424,6 +424,7 @@ function adminGetAllScores() {
 function adminGetQuestions() {
   $(`#list-questions-table`).html(``);
   getQuestions().then((questions) => {
+    getDictionaryByType(question.dictionary).then((result) => { 
     for (const [index, question] of Object.entries(questions)) {
         var correctAnswer = ""
         var questionType = ""
@@ -438,12 +439,11 @@ function adminGetQuestions() {
                         <input class="form-control" list="answerOptions" id="answer-${question._id}" id="answer-${question._id}" placeholder="Type to search...">
                         <datalist id="answerOptions">`
 
-          getDictionaryByType(question.dictionary).then((result) => {
             console.log(result)
             for (const [index, dictionary] of Object.entries(result)) {
               questionType += `<option value="${dictionary.param1}">`
             }
-          })
+        
             questionType +=`</datalist>`
             console.log(questionType)
         }
@@ -483,6 +483,7 @@ function adminGetQuestions() {
             </tr>
         `);
         }
+      })
   });
 }
 
