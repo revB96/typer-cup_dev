@@ -197,7 +197,7 @@ function printHallOfFame(){
 }
 
 $(document).ready(function () {
-    if (document.title == "Typer Cup | ⭐ HALL OF FAME ⭐") {
+    if (document.title == "Typer Cup-DEV | ⭐ HALL OF FAME ⭐") {
         printHallOfFame();
     }
 

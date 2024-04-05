@@ -242,7 +242,7 @@ function verifyValue(roundState){
 
 $(document).ready(function () {
   $(`#dashboard-round-matches`).html("Brak aktywnych kolejek");
-  if (document.title == "Typer Cup | Dashboard") {
+  if (document.title == "Typer Cup-DEV | Dashboard") {
     checkIfRoundIsOpen(getUserId()).then((roundState) => {
       if (roundState == true) printRoundWithMatches(1);
       else printRoundWithMatches(0);

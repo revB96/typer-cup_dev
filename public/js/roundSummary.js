@@ -87,7 +87,7 @@ function printRoundSummaryAccordion(){
 }
 
 $(document).ready(function () {
-    if(document.title == "Typer Cup | Podsumowanie rundy"){
+    if(document.title == "Typer Cup-DEV | Podsumowanie rundy"){
         printRoundSummaryAccordion()
     }
 })

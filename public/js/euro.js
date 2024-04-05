@@ -359,7 +359,7 @@ function printFinal() {
 }
 
 $(document).ready(function () {
-  if (document.title == "Typer Cup | Mistrzostwa Świata 2022") {
+  if (document.title == "Typer Cup-DEV | Mistrzostwa Świata 2022") {
     selectGroup();
     print18schedule();
     print14schedule();

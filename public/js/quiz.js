@@ -93,7 +93,7 @@ function printQuiz() {
 }
 
 $(document).ready(function () {
-  if (document.title == "Typer Cup | Quiz") {
+  if (document.title == "Typer Cup-DEV | Quiz") {
     printQuiz();
 
     $("#save-user-quiz-form").submit(function (e) {
