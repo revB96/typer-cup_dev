@@ -28,7 +28,7 @@ async function restoreLocalfile2Mongo(fileName) {
 
     const mongo_connector = new MongoDBDuplexConnector({
         connection: {
-            uri: `mongodb://localhost`,
+            uri: `mongodb://127.0.0.1`,
             dbname: `${process.env.DB_NAME}`,
         },
     });
@@ -60,7 +60,7 @@ async function restoreToBackupDatabase(fileName) {
 
     const mongo_connector = new MongoDBDuplexConnector({
         connection: {
-            uri: `mongodb://localhost`,
+            uri: `mongodb://127.0.0.1`,
             dbname: fileName.slice(0,-4),
         },
     });
@@ -98,7 +98,7 @@ async function dumpMongo2Localfile(formData) {
 
     const mongo_connector = new MongoDBDuplexConnector({
         connection: {
-            uri: `mongodb://localhost`,
+            uri: `mongodb://127.0.0.1`,
             dbname: `${process.env.DB_NAME}`,
         },
     });
