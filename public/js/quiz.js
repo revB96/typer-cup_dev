@@ -15,7 +15,7 @@ function printQuiz() {
               footer = "";
               checked =  "❌";
           if(!!userCorrectAnswer){
-              for await (const [index2, correctAnswer] of Object.entries(userCorrectAnswer)){
+              for (const [index2, correctAnswer] of Object.entries(userCorrectAnswer)){
                 //console.log(question._id, correctAnswer.question)
                   if (question._id == correctAnswer.question) {
                     points += 0.5;
