@@ -427,16 +427,24 @@ function adminGetQuestions() {
     for (const [index, question] of Object.entries(questions)) {
         var correctAnswer = ""
         var questionType = ""
-        if(question.type == "yes-no")
+        if(question.type == "yes-no"){
             questionType=`<label class="form-label">Odpowiedź</label>
                           <select id="answer-${question._id}" class="form-select">
                             <option value="yes">TAK</option>
                             <option value="no">NIE</option>
                           </select>`
-        else
-            questionType=`<label class="form-label">Odpowiedź</label>
-                          <input id="answer-${question._id}" type="text" class="form-control">`
+        }else{
+          questionType=`<label class="form-label">Odpowiedź</label>
+                        <input class="form-control" list="answerOptions" id="answer-${question._id}" id="answer-${question._id}" placeholder="Type to search...">
+                        <datalist id="answerOptions">`
 
+          getDictionaryTypes().then((result) => {
+            for (const [index, dictionary] of Object.entries(result)) {
+              questionType += `<option value="${dictionary.param1}">`
+            }
+          })
+            questionType=`</datalist>`
+        }
         if(question.correctAnswer == ""){
             correctAnswer = `<a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvas-${question._id}" role="button" aria-controls="offcanvas-${question._id}">
                                 Dodaj odpowiedź
@@ -449,7 +457,7 @@ function adminGetQuestions() {
             </div>
             <div class="offcanvas-body">
                     <div>
-                    adminGetMatches <h3>${question.question}</h3>
+                    <h3>${question.question}</h3>
                     </div>
                     <div>
                         ${questionType}
