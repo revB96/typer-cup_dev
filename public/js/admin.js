@@ -424,8 +424,8 @@ function adminGetAllScores() {
 function adminGetQuestions() {
   $(`#list-questions-table`).html(``);
   getQuestions().then((questions) => {
-    getDictionaryByType(question.dictionary).then((result) => { 
     for (const [index, question] of Object.entries(questions)) {
+      getDictionaryByType(question.dictionary).then((result) => { 
         var correctAnswer = ""
         var questionType = ""
         if(question.type == "yes-no"){
@@ -482,8 +482,8 @@ function adminGetQuestions() {
                 <td>${correctAnswer}</td>
             </tr>
         `);
-        }
       })
+        }
   });
 }
 
