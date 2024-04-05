@@ -72,7 +72,8 @@ function printQuiz() {
                                     ${select}
                                 </select>`;
             }else{
-              questionType = `<input value="${answer}" type="text" class="form-control" style="text-align-last: center;" name="${question._id}" ${closed}>`;
+              questionType = `<input value="${answer}" list="${question._id}-answers" type="text" class="form-control" style="text-align-last: center;" name="${question._id}" ${closed}>
+                              <datalist id="${question._id}-answers">`;
               for (const [index, dictionary] of Object.entries(questionDictionary)) {
                   questionType += `<option value="${dictionary.param1}">`;
               }
