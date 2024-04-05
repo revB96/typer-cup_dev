@@ -439,11 +439,13 @@ function adminGetQuestions() {
                         <datalist id="answerOptions">`
 
           getDictionaryByType(question.dictionary).then((result) => {
+            console.log(result)
             for (const [index, dictionary] of Object.entries(result)) {
               questionType += `<option value="${dictionary.param1}">`
             }
           })
             questionType +=`</datalist>`
+            console.log(questionType)
         }
         if(question.correctAnswer == ""){
             correctAnswer = `<a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvas-${question._id}" role="button" aria-controls="offcanvas-${question._id}">
