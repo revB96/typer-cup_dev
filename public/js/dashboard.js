@@ -66,12 +66,15 @@ function printRoundWithMatches() {
                 }
 
                 var timeMatch = new Date(match.matchDate);
-                var diff = Math.abs(new Date() - new Date(match.matchDate) );
-                console.log(diff)
-                if(diff < 300000){
-                  console.log("disabled")
+                
+                if(new Date() < new Date(match.matchDate)){
+                  var diff = Math.abs(new Date() - new Date(match.matchDate) );
+                  console.log(diff)
+                  if(diff < 300000){
+                    console.log("disabled")
+                  }
                 }
-
+            
                 var hrs = timeMatch.getHours();
                 var mins = timeMatch.getMinutes();
 
