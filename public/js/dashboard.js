@@ -93,12 +93,12 @@ function printRoundWithMatches() {
                               <input type="text" class="form-control d-none" value="${match._id}" disabled/>
                               <input type="text" class="form-control d-none" value="${round[0].round}" disabled/>
                               <div class="col">
-                                  <input id="${match.t1._id}" onchange="verifyValue('${roundState}')" type="number" value="${t1g}" class="form-control" min="0" max="9" style="text-align: center;" name="${match.t1._id}" ${roundState} required>
+                                  <input id="${match.t1._id}" onchange="verifyValue()" type="number" value="${t1g}" class="form-control" min="0" max="9" style="text-align: center;" name="${match.t1._id}" required>
                               </div>
                               <div class="col-1">:
                               </div>
                               <div class="col">
-                                  <input id="${match.t2._id}" onchange="verifyValue('${roundState}')" type="number" value="${t2g}" class="form-control" min="0" max="9" style="text-align: center;" name="${match.t2._id}" ${roundState} required>
+                                  <input id="${match.t2._id}" onchange="verifyValue()" type="number" value="${t2g}" class="form-control" min="0" max="9" style="text-align: center;" name="${match.t2._id}" required>
                               </div>
                           </div>
                           ${statsDiv}
@@ -112,14 +112,14 @@ function printRoundWithMatches() {
       });
     });
   });
-  if (roundState == "")
+
     $("#dashboard-submit-button")
       .html(`<div class="d-grid gap-2" style="padding: 1.5em;">
                 <button id="sendTicketsButton" type="submit" class="btn btn-primary">Dodaj</button>
                </div>`);
 }
 
-function verifyValue(roundState){
+function verifyValue(){
   var isNull;
   var isInvalid;
 
@@ -161,42 +161,14 @@ function verifyValue(roundState){
       if((isNull == false) & (isInvalid == true))
         $(`#dashboard-warnings`).html("<p><em><small>Jeden z wyników w twoich typach, jest większy niż 9!</small></em></p>")
 
-      if(roundState == "") $(`#sendTicketsButton`).addClass("disabled")
+    //   if(roundState == "") $(`#sendTicketsButton`).addClass("disabled")
 
-    }else{
-      if(roundState == "") $(`#sendTicketsButton`).removeClass("disabled")
-      $(`#dashboard-warnings`).html("")
+    // }else{
+    //   if(roundState == "") $(`#sendTicketsButton`).removeClass("disabled")
+    //   $(`#dashboard-warnings`).html("")
+    // }
+
     }
-  // if(!!($(`#${inputId}`).val())){
-  //   $(`#dashboard-warnings-nullType`).html("")
-  //   buttonState1 = 1;
-  // }else{
-  //   $(`#dashboard-warnings-nullType`).append("<p><em><small>Nie wypełniłeś wszystkich typów</small></em></p>")
-  //   buttonState1 = 0;
-  // }
-
-  // if($(`#${inputId}`).val() > 9){
-  //   $(`#dashboard-warnings-invalidType`).append("<p><em><small>Jeden z wyników w twoich typach, jest większy niż 9!</small></em></p>")
-  //   buttonState2 = 0
-  // }else{
-  //   $(`#dashboard-warnings-invalidType`).html("")
-  //   buttonState2 = 1;
-  // }
-
-  // if((buttonState1 == 1) & (buttonState2 == 1)){
-  //   $(`#${inputId}`).addClass("is-valid")
-  //   $(`#${inputId}`).removeClass("is-invalid")
-  //   if(roundState==""){
-  //     $(`#sendTicketsButton`).removeClass("disabled")
-  //   }
-  // }else{
-  //   $(`#${inputId}`).removeClass("is-valid")
-  //   $(`#${inputId}`).addClass("is-invalid")
-  //   if(roundState==""){
-  //     $(`#sendTicketsButton`).addClass("disabled")
-  //   }
-  // }
-
 }
 
 $(document).ready(function () {
