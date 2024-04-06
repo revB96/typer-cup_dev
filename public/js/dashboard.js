@@ -66,15 +66,14 @@ function printRoundWithMatches() {
                 }
 
                 var timeMatch = new Date(match.matchDate);
-                
-                if(new Date() < new Date(match.matchDate)){
-                  var diff = Math.abs(new Date() - new Date(match.matchDate) );
-                  console.log(diff)
-                  if(diff < 300000){
-                    console.log("disabled")
-                  }
+                var matchState=""
+                if((new Date() < new Date(match.matchDate)) & (Math.abs(new Date() - new Date(match.matchDate) < 300000))){
+                  matchState = "disabled"
                 }
-            
+                if(new Date() > new Date(match.matchDate)){
+                  matchState = "disabled"
+                }
+          
                 var hrs = timeMatch.getHours();
                 var mins = timeMatch.getMinutes();
 
@@ -116,7 +115,7 @@ function printRoundWithMatches() {
                                     match.t1._id
                                   }" onchange="verifyValue()" type="number" value="${t1g}" class="form-control" min="0" max="9" style="text-align: center;" name="${
                   match.t1._id
-                }" required>
+                }" ${matchState} required>
                               </div>
                               <div class="col-1">:
                               </div>
@@ -125,7 +124,7 @@ function printRoundWithMatches() {
                                     match.t2._id
                                   }" onchange="verifyValue()" type="number" value="${t2g}" class="form-control" min="0" max="9" style="text-align: center;" name="${
                   match.t2._id
-                }" required>
+                }" ${matchState} required>
                               </div>
                           </div>
                           ${statsDiv}
