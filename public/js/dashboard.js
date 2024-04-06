@@ -70,10 +70,14 @@ function printRoundWithMatches() {
                 if(new Date() < new Date(match.matchDate)) {
                   var diff = Math.abs(new Date() - new Date(match.matchDate))
                   console.log(diff)
-                  if(diff < 300000 ) matchState = "disabled"
+                  if(diff < 300000 ){ 
+                    matchState = "disabled"
+                    ticketColor = "text-white bg-secondary"
+                  }
                 }
                 if(new Date() > new Date(match.matchDate)){
                   matchState = "disabled"
+                  ticketColor = "text-white bg-secondary"
                 }
           
                 var hrs = timeMatch.getHours();
