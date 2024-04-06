@@ -1,74 +1,86 @@
 function printRoundWithMatches() {
   const dateOptions = { year: "numeric", month: "numeric", day: "numeric" };
-  
+
   getRound("running").then((round) => {
-    $(`#dashboard-round-matches`).html(`<div class="spinner-border" role="status">
+    $(`#dashboard-round-matches`)
+      .html(`<div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>`);
     getRoundSchedule(round[0].roundDate).then(async (schedule) => {
-      await getUserTickets(getUserId(), round[0].round).then(async (userTickets) => {
-        await getUserTimezone(getUserId()).then(async (userTimezone) => {
-          $(`#dashboard-round-matches`).html("")
-          var roundDate = new Date(round[0].roundDate);
-          var closeTime = new Date(schedule[0].matchDate);
-          var timeoffset;
-          var spinner = `<button class="btn btn-sm btn-light" type="button" disabled>
+      await getUserTickets(getUserId(), round[0].round).then(
+        async (userTickets) => {
+          await getUserTimezone(getUserId()).then(async (userTimezone) => {
+            $(`#dashboard-round-matches`).html("");
+            var roundDate = new Date(round[0].roundDate);
+            var timeoffset;
+            var spinner = `<button class="btn btn-sm btn-light" type="button" disabled>
                           <span class="spinner-grow spinner-grow-sm text-success" role="status" aria-hidden="true"></span>
                           <span class="visually-hidden">Loading...</span>
-                        </button>`
-  
-          if (userTimezone.timezone == "UK") timeoffset = 1;
-          else timeoffset = 0;
-        
-          var minutes = closeTime.getMinutes();
-          var today = new Date();
-    
-   
-            $(`#dashboard-round-date`).html(
-              `${roundDate.toLocaleDateString(
-                "pl-PL",
-                dateOptions
-              )}<br />`
-            );      
+                        </button>`;
 
-          for await (const [index, match] of Object.entries(schedule)) {
-            await getTicketsStats(match._id).then(async (stats) => {
-              var t1g = "",
+            if (userTimezone.timezone == "UK") timeoffset = 1;
+            else timeoffset = 0;
+
+            $(`#dashboard-round-date`).html(
+              `${roundDate.toLocaleDateString("pl-PL", dateOptions)}<br />`
+            );
+
+            for await (const [index, match] of Object.entries(schedule)) {
+              await getTicketsStats(match._id).then(async (stats) => {
+                var t1g = "",
                   t2g = "",
                   statsDiv = "",
                   ticketColor = "text-white bg-danger";
-            
-              if (stats.counter > 2) {
-                statsDiv = `<div class="row" style="margin-top: 20px;"><div class="progress" style="background: none; height: 20px;">`;
-                if (stats.t1>0) statsDiv += `<div class="progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: ${stats.t1}%" aria-valuenow="${stats.t1}" aria-valuemin="0" aria-valuemax="100"><span class="mt-1 flag-icon flag-icon-${match.t1.shortcut.toLowerCase()}"></div>`;
-                if (stats.drawn>0)  statsDiv += `<div class="progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: ${stats.drawn}%" aria-valuenow="${stats.drawn}" aria-valuemin="0" aria-valuemax="100"><img style="width:20px; height: 20px;" src="img/handshake.png" /></div>`;
-                if (stats.t2>0) statsDiv += `<div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: ${stats.t2}%" aria-valuenow="${stats.t2}" aria-valuemin="0" aria-valuemax="100"><span class="mt-1 flag-icon flag-icon-${match.t2.shortcut.toLowerCase()}"></div>`
-                statsDiv += `</div><small>Liczba oddanych typów: ${stats.counter}</small>`;
-              } else {
-                statsDiv = `</div><p class="fw-lighter" style="color: white; margin: 0; padding: 0;">(Zbyt mało głosów)</div>`;
-              }
 
-              for await (const [index, userTicket] of Object.entries(userTickets)) {
-                if (match._id == userTicket.schedule) {
-                  if ((userTicket.t1g != null) & (userTicket.t2g != null)) {
-                    t1g = userTicket.t1g;
-                    t2g = userTicket.t2g;
-                    ticketColor = "text-white bg-success";
+                if (stats.counter > 2) {
+                  statsDiv = `<div class="row" style="margin-top: 20px;"><div class="progress" style="background: none; height: 20px;">`;
+                  if (stats.t1 > 0)
+                    statsDiv += `<div class="progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: ${
+                      stats.t1
+                    }%" aria-valuenow="${
+                      stats.t1
+                    }" aria-valuemin="0" aria-valuemax="100"><span class="mt-1 flag-icon flag-icon-${match.t1.shortcut.toLowerCase()}"></div>`;
+                  if (stats.drawn > 0)
+                    statsDiv += `<div class="progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: ${stats.drawn}%" aria-valuenow="${stats.drawn}" aria-valuemin="0" aria-valuemax="100"><img style="width:20px; height: 20px;" src="img/handshake.png" /></div>`;
+                  if (stats.t2 > 0)
+                    statsDiv += `<div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: ${
+                      stats.t2
+                    }%" aria-valuenow="${
+                      stats.t2
+                    }" aria-valuemin="0" aria-valuemax="100"><span class="mt-1 flag-icon flag-icon-${match.t2.shortcut.toLowerCase()}"></div>`;
+                  statsDiv += `</div><small>Liczba oddanych typów: ${stats.counter}</small>`;
+                } else {
+                  statsDiv = `</div><p class="fw-lighter" style="color: white; margin: 0; padding: 0;">(Zbyt mało głosów)</div>`;
+                }
+
+                for await (const [index, userTicket] of Object.entries(
+                  userTickets
+                )) {
+                  if (match._id == userTicket.schedule) {
+                    if ((userTicket.t1g != null) & (userTicket.t2g != null)) {
+                      t1g = userTicket.t1g;
+                      t2g = userTicket.t2g;
+                      ticketColor = "text-white bg-success";
+                    }
                   }
                 }
-              }
 
-              var timeMatch = new Date(match.matchDate);
-              
-              var hrs = timeMatch.getHours();
-              var mins = timeMatch.getMinutes();
-         
-              if (hrs <= 9) hrs = "0" + hrs;
-              if (mins < 10) mins = "0" + mins;
+                var timeMatch = new Date(match.matchDate);
+                var diff = Math.abs(new Date() - new Date(match.matchDate) );
+                
+                if(diff < 300000){
+                  console.log("disabled")
+                }
 
-              var group = `<b>Grupa ${match.group}</b><br />`
+                var hrs = timeMatch.getHours();
+                var mins = timeMatch.getMinutes();
 
-              await $(`#dashboard-round-matches`).append(`
+                if (hrs <= 9) hrs = "0" + hrs;
+                if (mins < 10) mins = "0" + mins;
+
+                var group = `<b>Grupa ${match.group}</b><br />`;
+
+                await $(`#dashboard-round-matches`).append(`
                   <div class="col" style="margin-right: 0;">
                   <div class="card ${ticketColor}">
                       <div class="card-body">
@@ -90,15 +102,27 @@ function printRoundWithMatches() {
                           </h5>
                           <p class="card-text">
                           <div class="row">
-                              <input type="text" class="form-control d-none" value="${match._id}" disabled/>
-                              <input type="text" class="form-control d-none" value="${round[0].round}" disabled/>
+                              <input type="text" class="form-control d-none" value="${
+                                match._id
+                              }" disabled/>
+                              <input type="text" class="form-control d-none" value="${
+                                round[0].round
+                              }" disabled/>
                               <div class="col">
-                                  <input id="${match.t1._id}" onchange="verifyValue()" type="number" value="${t1g}" class="form-control" min="0" max="9" style="text-align: center;" name="${match.t1._id}" required>
+                                  <input id="${
+                                    match.t1._id
+                                  }" onchange="verifyValue()" type="number" value="${t1g}" class="form-control" min="0" max="9" style="text-align: center;" name="${
+                  match.t1._id
+                }" required>
                               </div>
                               <div class="col-1">:
                               </div>
                               <div class="col">
-                                  <input id="${match.t2._id}" onchange="verifyValue()" type="number" value="${t2g}" class="form-control" min="0" max="9" style="text-align: center;" name="${match.t2._id}" required>
+                                  <input id="${
+                                    match.t2._id
+                                  }" onchange="verifyValue()" type="number" value="${t2g}" class="form-control" min="0" max="9" style="text-align: center;" name="${
+                  match.t2._id
+                }" required>
                               </div>
                           </div>
                           ${statsDiv}
@@ -106,60 +130,62 @@ function printRoundWithMatches() {
                   </div> 
               </div>
             `);
-            });
-          }
-        });
-      });
+              });
+            }
+          });
+        }
+      );
     });
   });
 
-    $("#dashboard-submit-button")
-      .html(`<div class="d-grid gap-2" style="padding: 1.5em;">
+  $("#dashboard-submit-button")
+    .html(`<div class="d-grid gap-2" style="padding: 1.5em;">
                 <button id="sendTicketsButton" type="submit" class="btn btn-primary">Dodaj</button>
                </div>`);
 }
 
-function verifyValue(){
+function verifyValue() {
   var isNull;
   var isInvalid;
 
-  $("#add-ticket-form input[type=Number]").each(function(){
+  $("#add-ticket-form input[type=Number]").each(function () {
     var input = $(this);
-    if(input.val() == ""){
-      input.addClass("is-invalid")
-      input.removeClass("is-valid")
+    if (input.val() == "") {
+      input.addClass("is-invalid");
+      input.removeClass("is-valid");
       isNull = true;
-    }else{
-      input.removeClass("is-invalid")
-      input.addClass("is-valid")
-      if(isNull == true)
-        isNull = true;
-      else
-        isNull = false
+    } else {
+      input.removeClass("is-invalid");
+      input.addClass("is-valid");
+      if (isNull == true) isNull = true;
+      else isNull = false;
     }
 
-    if(input.val() > 9){
-      input.addClass("is-invalid")
-      input.removeClass("is-valid")
+    if (input.val() > 9) {
+      input.addClass("is-invalid");
+      input.removeClass("is-valid");
       isInvalid = true;
-    }else{
-      input.removeClass("is-invalid")
-      input.addClass("is-valid")
-      if(isInvalid == true)
-        isInvalid = true;
-      else
-        isInvalid = false
+    } else {
+      input.removeClass("is-invalid");
+      input.addClass("is-valid");
+      if (isInvalid == true) isInvalid = true;
+      else isInvalid = false;
     }
+  });
 
-    });
- 
-    if((isInvalid == true) || (isNull == true)){
-      if((isInvalid == true) & (isNull == true))
-        $(`#dashboard-warnings`).html("<p><em><small>Jeden z wyników w twoich typach, jest większy niż 9!</small></em></p><p><em><small>Nie wypełniłeś wszystkich typów</small></em></p>")
-      if((isNull == true) & (isInvalid == false))
-        $(`#dashboard-warnings`).html("<p><em><small>Nie wypełniłeś wszystkich typów</small></em></p>")
-      if((isNull == false) & (isInvalid == true))
-        $(`#dashboard-warnings`).html("<p><em><small>Jeden z wyników w twoich typach, jest większy niż 9!</small></em></p>")
+  if (isInvalid == true || isNull == true) {
+    if ((isInvalid == true) & (isNull == true))
+      $(`#dashboard-warnings`).html(
+        "<p><em><small>Jeden z wyników w twoich typach, jest większy niż 9!</small></em></p><p><em><small>Nie wypełniłeś wszystkich typów</small></em></p>"
+      );
+    if ((isNull == true) & (isInvalid == false))
+      $(`#dashboard-warnings`).html(
+        "<p><em><small>Nie wypełniłeś wszystkich typów</small></em></p>"
+      );
+    if ((isNull == false) & (isInvalid == true))
+      $(`#dashboard-warnings`).html(
+        "<p><em><small>Jeden z wyników w twoich typach, jest większy niż 9!</small></em></p>"
+      );
 
     //   if(roundState == "") $(`#sendTicketsButton`).addClass("disabled")
 
@@ -167,8 +193,7 @@ function verifyValue(){
     //   if(roundState == "") $(`#sendTicketsButton`).removeClass("disabled")
     //   $(`#dashboard-warnings`).html("")
     // }
-
-    }
+  }
 }
 
 $(document).ready(function () {
