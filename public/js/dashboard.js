@@ -67,8 +67,8 @@ function printRoundWithMatches() {
 
                 var timeMatch = new Date(match.matchDate);
                 var matchState=""
-                if((new Date() < new Date(match.matchDate)) & (Math.abs(new Date() - new Date(match.matchDate) < 300000))){
-                  matchState = "disabled"
+                if(new Date() < new Date(match.matchDate)){
+                  if(Math.abs(new Date() - new Date(match.matchDate) < 300000)) matchState = "disabled"
                 }
                 if(new Date() > new Date(match.matchDate)){
                   matchState = "disabled"
