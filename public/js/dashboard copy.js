@@ -1,6 +1,11 @@
-function printRoundWithMatches() {
+function printRoundWithMatches(round) {
   const dateOptions = { year: "numeric", month: "numeric", day: "numeric" };
-  
+  if (round == 0) {
+    var roundState = "Disabled";
+  } else {
+    var roundState = "";
+  }
+
   getRound("running").then((round) => {
     $(`#dashboard-round-matches`).html(`<div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -19,17 +24,52 @@ function printRoundWithMatches() {
   
           if (userTimezone.timezone == "UK") timeoffset = 1;
           else timeoffset = 0;
+
+          //console.log(closeTime.getHours());
+          //console.log(userTimezone);
+
+          if (roundState != "disabled"){
+            $(`#dashboard-round-display-name`).html(`${round[0].displayName}`);
+          }else{
+            $(`#dashboard-round-display-name`).html(
+              `<div class="row" style="text-align: center;"><h3>Kolejka zamknięta</h3></div>`
+            );
+          }
         
           var minutes = closeTime.getMinutes();
           var today = new Date();
-    
-   
+          console.log(today.getHours())
+          console.log(today.getHours() - closeTime.getHours())
+          if((closeTime.getMonth() == today.getMonth())&(closeTime.getDate() == today.getDate())&(closeTime.getHours() - today.getHours() == 2))
+            spinner = `<button class="btn btn-sm btn-light" type="button" disabled>
+                        <span class="spinner-grow spinner-grow-sm text-warning" role="status" aria-hidden="true"></span>
+                        <span class="visually-hidden">Loading...</span>
+                       </button>`
+
+          if (minutes < 10) minutes = "00";
+          if (roundState != "Disabled")
             $(`#dashboard-round-date`).html(
               `${roundDate.toLocaleDateString(
                 "pl-PL",
                 dateOptions
-              )}<br />`
-            );      
+              )}<br /> Godzina zamknięcia kolejki: ${closeTime.getHours() - 1}:${minutes} ${spinner}`
+            );
+          else {
+            spinner = `<button class="btn btn-sm btn-light" type="button" disabled>
+                          <span class="spinner-grow spinner-grow-sm text-danger" role="status" aria-hidden="true"></span>
+                          <span class="visually-hidden">Loading...</span>
+                        </button>`
+            $(`#dashboard-round-date`).html(
+              `${roundDate.toLocaleDateString(
+                "pl-PL",
+                dateOptions
+              )}<br /> Kolejka została zamknięta o: ${closeTime.getHours() - 1}:${minutes} ${spinner}`
+            );
+
+            $(`#dashboard-message`).html(
+              `<a href="/roundSummary"><button type="button" class="btn btn-primary">Sprawdź jak postawili inni</button></a>`
+            );
+          }
 
           for await (const [index, match] of Object.entries(schedule)) {
             await getTicketsStats(match._id).then(async (stats) => {
@@ -63,6 +103,7 @@ function printRoundWithMatches() {
               var hrs = timeMatch.getHours();
               var mins = timeMatch.getMinutes();
          
+
               if (hrs <= 9) hrs = "0" + hrs;
               if (mins < 10) mins = "0" + mins;
 
@@ -202,8 +243,11 @@ function verifyValue(roundState){
 $(document).ready(function () {
   $(`#dashboard-round-matches`).html("Brak aktywnych kolejek");
   if (document.title == "Typer Cup-DEV | Dashboard") {
-    printRoundWithMatches();
-
+    checkIfRoundIsOpen(getUserId()).then((roundState) => {
+      if (roundState == true) printRoundWithMatches(1);
+      else printRoundWithMatches(0);
+      
+    });
     $("#add-ticket-form").submit(function (e) {
       e.preventDefault();
       var inputs = document.getElementsByTagName("input");
