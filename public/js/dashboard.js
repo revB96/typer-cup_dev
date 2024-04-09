@@ -119,7 +119,7 @@ function printRoundWithMatches() {
                               <div class="col">
                                   <input id="${
                                     match.t1._id
-                                  }" onchange="verifyValue()" type="number" value="${t1g}" class="form-control" min="0" max="9" style="text-align: center;" name="${
+                                  }" type="number" value="${t1g}" class="form-control" min="0" max="9" style="text-align: center;" name="${
                   match.t1._id
                 }" ${matchState} required>
                               </div>
@@ -128,7 +128,7 @@ function printRoundWithMatches() {
                               <div class="col">
                                   <input id="${
                                     match.t2._id
-                                  }" onchange="verifyValue()" type="number" value="${t2g}" class="form-control" min="0" max="9" style="text-align: center;" name="${
+                                  }" type="number" value="${t2g}" class="form-control" min="0" max="9" style="text-align: center;" name="${
                   match.t2._id
                 }" ${matchState} required>
                               </div>
