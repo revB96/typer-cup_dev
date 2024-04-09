@@ -329,9 +329,11 @@ function addOld(formData) {
   return def.promise;
 }
 
-function validTicket(matchId){
+function valideTicket(matchId){
   var def = Q.defer();
+  console.log("validate")
   getScheduleById(matchId).then(match =>{
+    console.log(match)
     if(new Date() < new Date(match.matchDate)) {
       var diff = Math.abs(new Date() - new Date(match.matchDate))
       if(diff < 300000 ){ 
@@ -360,7 +362,7 @@ function add(formData) {
       updatedAt: timestamp,
     });
     console.log(ticket)
-    validTicket(ticket.schedule).then(result => {
+    valideTicket(ticket.schedule).then(result => {
       console.log(result)
       if (result != 0) {
         getUserTicketById(match.scheduleId, match.userId).then((result) => {
