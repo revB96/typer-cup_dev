@@ -6,6 +6,7 @@ function printRoundWithMatches() {
       .html(`<div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>`);
+    $(`#dashboard-round-display-name`).html(`${round[0].displayName}`);
     getRoundSchedule(round[0].roundDate).then(async (schedule) => {
       await getUserTickets(getUserId(), round[0].round).then(
         async (userTickets) => {
@@ -13,10 +14,7 @@ function printRoundWithMatches() {
             $(`#dashboard-round-matches`).html("");
             var roundDate = new Date(round[0].roundDate);
             var timeoffset;
-            var spinner = `<button class="btn btn-sm btn-light" type="button" disabled>
-                          <span class="spinner-grow spinner-grow-sm text-success" role="status" aria-hidden="true"></span>
-                          <span class="visually-hidden">Loading...</span>
-                        </button>`;
+
 
             if (userTimezone.timezone == "UK") timeoffset = 1;
             else timeoffset = 0;
