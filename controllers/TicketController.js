@@ -338,13 +338,14 @@ function valideTicket(matchId){
       var diff = Math.abs(new Date() - new Date(match.matchDate))
       if(diff < 300000 ){ 
         def.resolve(0);
+      }else{
+        def.resolve(1);
       }
     }else if(new Date() > new Date(match.matchDate)){
       def.resolve(0);
-    }else{
-      def.resolve(1);
     }
   })
+  console.log(def)
   return def.promise;
 }
 
@@ -361,7 +362,7 @@ function add(formData) {
       createdAt: timestamp,
       updatedAt: timestamp,
     });
-    console.log(ticket)
+
     valideTicket(ticket.schedule).then(result => {
       console.log(result)
       if (result != 0) {
