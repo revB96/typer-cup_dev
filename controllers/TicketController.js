@@ -359,7 +359,9 @@ function add(formData) {
       createdAt: timestamp,
       updatedAt: timestamp,
     });
+    console.log(ticket)
     validTicket(ticket.schedule).then(result => {
+      console.log(result)
       if (result != 0) {
         getUserTicketById(match.scheduleId, match.userId).then((result) => {
           if (result == null) {
