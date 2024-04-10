@@ -61,18 +61,17 @@ function printRoundSummaryAccordion() {
                         counter++;
 
                     })
-              
+            
+                    matchAccordion += `
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    `;
+                    $(`#round-summary-accordion`).append(matchAccordion);
             }
-        matchAccordion += `
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        `;
-        $(`#round-summary-accordion`).append(matchAccordion);
-
         })
     })
     })
