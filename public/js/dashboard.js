@@ -7,6 +7,9 @@ function printRoundWithMatches() {
       <span class="visually-hidden">Loading...</span>
     </div>`);
     $(`#dashboard-round-display-name`).html(`${round[0].displayName}`);
+    $(`#dashboard-message`).html(
+      `<a href="/roundSummary"><button type="button" class="btn btn-primary">Sprawdź jak postawili inni</button></a>`
+    );
     getRoundSchedule(round[0].roundDate).then(async (schedule) => {
       await getUserTickets(getUserId(), round[0].round).then(
         async (userTickets) => {
