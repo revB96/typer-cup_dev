@@ -20,7 +20,7 @@ function printRoundSummaryAccordion() {
           var diff = Math.abs(
             new Date() - new Date(ticketsByMatch[match][0].schedule.matchDate)
           );
-          if (!(diff < 300000)) {
+          if (diff < 300000) {
             var matchAccordion = `
                         <div class="accordion-item">
                             <h2 style="text-align: center" class="accordion-header" id="flush-heading-${
