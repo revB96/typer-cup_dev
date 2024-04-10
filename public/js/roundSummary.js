@@ -60,9 +60,9 @@ function printRoundSummaryAccordion() {
                                     <tbody>
                         `;
 
-        if (new Date() < new Date(ticketsByMatch[match][0].schedule.t1.matchDate))
+        if (new Date() < new Date(ticketsByMatch[match][0].schedule.matchDate))
         {
-          var diff = Math.abs(new Date() - new Date(ticketsByMatch[match][0].schedule.t1.matchDate));
+          var diff = Math.abs(new Date() - new Date(ticketsByMatch[match][0].schedule.matchDate));
           if (diff < 300000) {
             matchAccordion = "Wysyłanie typów na mecz nadal trwa"
           } else {
@@ -93,7 +93,7 @@ function printRoundSummaryAccordion() {
             });
           }
         }
-        if (new Date() > new Date(match.matchDate)) {
+        if (new Date() > new Date(ticketsByMatch[match][0].schedule.matchDate)) {
           matchAccordion = "Wysyłanie typów na mecz nadal trwa"
         }
 
