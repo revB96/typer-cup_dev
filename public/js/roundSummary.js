@@ -64,7 +64,7 @@ function printRoundSummaryAccordion() {
         {
           var diff = Math.abs(new Date() - new Date(ticketsByMatch[match][0].schedule.matchDate));
           if (diff < 300000) {
-            matchAccordion = "Wysyłanie typów na mecz nadal trwa"
+            matchAccordion += "Wysyłanie typów na mecz nadal trwa"
           } else {
             var counter = 1;
             ticketsByMatch[match].forEach((userTicket) => {
@@ -94,7 +94,7 @@ function printRoundSummaryAccordion() {
           }
         }
         if (new Date() > new Date(ticketsByMatch[match][0].schedule.matchDate)) {
-          matchAccordion = "Wysyłanie typów na mecz nadal trwa"
+          matchAccordion += "Wysyłanie typów na mecz nadal trwa"
         }
 
         matchAccordion += `
