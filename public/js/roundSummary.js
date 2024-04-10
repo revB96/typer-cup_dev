@@ -15,9 +15,8 @@ function printRoundSummaryAccordion() {
 
       ticketsByDateKeys.forEach((match) => {
         ticketsByMatch[match].forEach((userTicket) => {
-            if (new Date() < new Date(ticketsByMatch[match][0].schedule.matchDate)) {
-                var diff = Math.abs(new Date() - new Date(ticketsByMatch[match][0].schedule.matchDate));
-                if (diff > 300000){
+            var diff = Math.abs(new Date() - new Date(ticketsByMatch[match][0].schedule.matchDate));
+            if ((new Date() > new Date(ticketsByMatch[match][0].schedule.matchDate)) || (diff < 300000 )) {
                     var counter = 1;
                     var matchAccordion = `
                     <div class="accordion-item">
@@ -62,7 +61,7 @@ function printRoundSummaryAccordion() {
                         counter++;
 
                     })
-                }
+              
             }
         matchAccordion += `
                                         </tbody>
