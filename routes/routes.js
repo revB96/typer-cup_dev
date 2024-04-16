@@ -75,6 +75,7 @@ router.get("/previousRound", authenticate, async function (req, res) {
 });
 
 router.get("/admin", authenticate, async function (req, res) {
+  const token = req.cookies.access_token;
   jwt.verify(token, process.env.SECRET_TOKEN, (err, result) => {
     if(result.user.role == "admin"){ 
       res.render("admin", {
