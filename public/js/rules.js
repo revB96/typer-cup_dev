@@ -11,6 +11,6 @@ function printRules() {
 
 $(document).ready(function () {
     if (document.title == "Typer Cup-DEV | Regulamin i zasady") {
-      
+        printRules()
     }
   });
