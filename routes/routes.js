@@ -41,13 +41,6 @@ function authenticateAdmin(req, res, next) {
   });
 }
 
-function getActiveEdition(){
-  Site.getCurrentEdition().then((edition)=>{
-    console.log(edition.name)
-    return edition.name
-  })
-}
-
 router.get("/", authenticate, async function (req, res, next) {
   res.render("dashboard", {
     title: "Dashboard",
@@ -151,7 +144,9 @@ router.post("/login", async (req, res, next) => {
         //httpOnly: true
       });
 
-      res.cookie('edition', "Test");
+      Site.getCurrentEdition().then((edition)=>{
+        res.cookie('edition', edition.name);
+      })
 
       UserController.lastLogonUpdate(user.id)
 
