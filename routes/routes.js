@@ -49,13 +49,13 @@ function getActiveEdition(){
 }
 
 router.get("/", authenticate, async function (req, res, next) {
-
+  var activeEdition = getActiveEdition();
   res.render("dashboard", {
     title: "Dashboard",
     user: req.user,
     token: req.query.secret_token,
     lastRound: 1,
-    activeEdition: getActiveEdition(),
+    activeEdition: activeEdition,
   });
 })
 
