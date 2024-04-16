@@ -24,7 +24,7 @@ function add(formData) {
 function getSection(section) {
     var def = Q.defer();
     Regulation.find({ section: section })
-      .sort({ order: "desc" })
+      .sort({ order: "asc" })
       .exec(function (err, data) {
           err ? def.reject(err) : def.resolve(data);
       });
