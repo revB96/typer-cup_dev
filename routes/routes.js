@@ -114,6 +114,7 @@ router.post("/login", async (req, res, next) => {
     }
 
     req.login(user, { session: false }, async (error) => {
+      Site.getCurrentEdition().then((edition)=>{
       if (error) return next(error);
 
       const body = {
@@ -141,9 +142,7 @@ router.post("/login", async (req, res, next) => {
         //httpOnly: true
       });
 
-      Site.getCurrentEdition().then((edition)=>{
-        res.cookie('edition', edition.name);
-      })
+      res.cookie('edition', edition.name);
 
       UserController.lastLogonUpdate(user.id)
 
@@ -154,6 +153,7 @@ router.post("/login", async (req, res, next) => {
         return res.redirect("/");
       else
         return res.redirect("/quiz");
+    })
     });
 
   })(req, res, next);
