@@ -43,6 +43,7 @@ function authenticateAdmin(req, res, next) {
 
 function getActiveEdition(){
   Site.getCurrentEdition().then((edition)=>{
+    console.log(edition.name)
     return edition.name
   })
 }
