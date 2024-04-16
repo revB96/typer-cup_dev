@@ -55,7 +55,7 @@ router.get("/", authenticate, async function (req, res, next) {
     user: req.user,
     token: req.query.secret_token,
     lastRound: 1,
-    activeEdition: activeEdition,
+    activeEdition: req.query.edition,
   });
 })
 
@@ -118,6 +118,8 @@ router.post("/login", async (req, res, next) => {
     req.login(user, { session: false }, async (error) => {
       if (error) return next(error);
 
+      var edition = getActiveEdition()
+
       const body = {
         _id: user._id,
         username: user.username,
@@ -142,6 +144,8 @@ router.post("/login", async (req, res, next) => {
         maxAge: 86400000,
         //httpOnly: true
       });
+
+      res.cookie('edition', edition);
 
       UserController.lastLogonUpdate(user.id)
 
