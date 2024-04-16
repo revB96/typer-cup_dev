@@ -21,26 +21,6 @@ function authenticate(req, res, next) {
   });
 }
 
-function authenticateAdmin(req, res, next) {
-  const token = req.cookies.access_token;
-
-  if (token === null) return res.redirect("/login");
-
-  jwt.verify(token, process.env.SECRET_TOKEN, (err, user) => {
-    if(err)res.redirect("/login")
-    console.log(user)
-    if(user.user.role == "admin"){
-      req.user = user;
-    }else{
-      res.status(401).render("401", {
-        title: "Brak dostępu",
-      });
-    }
-
-    next();
-  });
-}
-
 router.get("/", authenticate, async function (req, res, next) {
   res.render("dashboard", {
     title: "Dashboard",
@@ -94,12 +74,18 @@ router.get("/previousRound", authenticate, async function (req, res) {
   });
 });
 
-router.get("/admin", authenticateAdmin, async function (req, res) {
-  res.render("admin", {
-    title: "Admin",
-    activeEdition: req.cookies.edition,
-    lastRound: 1
-  });
+router.get("/admin", authenticate, async function (req, res) {
+  jwt.verify(token, process.env.SECRET_TOKEN, (err, result) => {
+    if(result.user.role == "admin"){ 
+      res.render("admin", {
+        title: "Admin",
+        activeEdition: req.cookies.edition,
+        lastRound: 1
+      });
+    }else{
+      res.send(401);
+    }
+  })
 });
 
 router.post("/login", async (req, res, next) => {
