@@ -116,9 +116,6 @@ router.post("/login", async (req, res, next) => {
     req.login(user, { session: false }, async (error) => {
       if (error) return next(error);
 
-      var edition = getActiveEdition()
-      console.log(edition)
-
       const body = {
         _id: user._id,
         username: user.username,
