@@ -602,6 +602,20 @@ function getDictionaryByType(type) {
     })
 }
 
+function getRegulationsBySection(section){
+    return $.ajax({
+        url: `/api/regulations?section=${section}`,
+        contentType: "application/json",
+        dataType: 'json',
+        success: function (result) {
+            return result;
+        },
+        fail: function (){
+            console.log("Nie udało się pobrać");
+        }
+    })
+}
+
 $(document).ready(function () {
     if(checkIfTokenExists() == 1){
         var decoded = jwt_decode(getCookie("access_token"));
