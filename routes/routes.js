@@ -42,7 +42,7 @@ function authenticateAdmin(req, res, next) {
 }
 
 function getActiveEdition(){
-  getActiveRound().then((edition)=>{
+  getCurrentEdition().then((edition)=>{
     return edition.name
   })
 }
