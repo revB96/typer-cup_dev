@@ -145,7 +145,7 @@ router.post("/login", async (req, res, next) => {
         //httpOnly: true
       });
 
-      res.cookie('edition', edition);
+      res.cookie('edition', "Test");
 
       UserController.lastLogonUpdate(user.id)
 
