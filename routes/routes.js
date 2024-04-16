@@ -6,7 +6,7 @@ const User = require("../models/users");
 const UserController= require("../controllers/UserController")
 const Round = require("../controllers/RoundController")
 const Ticket = require("../controllers/TicketController")
-
+const Site = require("../controllers/SiteController");
 
 function authenticate(req, res, next) {
   const token = req.cookies.access_token;
@@ -41,12 +41,20 @@ function authenticateAdmin(req, res, next) {
   });
 }
 
+function getActiveEdition(){
+  getActiveRound().then((edition)=>{
+    return edition.name
+  })
+}
+
 router.get("/", authenticate, async function (req, res, next) {
+
   res.render("dashboard", {
     title: "Dashboard",
     user: req.user,
     token: req.query.secret_token,
-    lastRound: 1
+    lastRound: 1,
+    activeEdition: getActiveEdition(),
   });
 })
 

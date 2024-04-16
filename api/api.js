@@ -683,6 +683,16 @@ router.get("/admin/site/edition/get", authenticate, function (req, res) {
     });
 });
 
+router.get("/edition", authenticate, function (req, res) {
+    Site.getCurrentEdition()
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        res.json(err);
+      });
+  });
+
 router.post("/admin/site/edition/setActive", authenticate, function (req, res) {
   Site.setActiveEdition(req.body)
     .then((data) => {
