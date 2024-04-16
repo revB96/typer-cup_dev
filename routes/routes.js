@@ -42,7 +42,7 @@ function authenticateAdmin(req, res, next) {
 }
 
 router.get("/", authenticate, async function (req, res, next) {
-  console.log(req.user)
+  console.log(req.user.user)
   res.render("dashboard", {
     title: "Dashboard",
     user: req.user,
