@@ -92,7 +92,7 @@ router.get("/dictionary/type", authenticate, function (req, res) {
   }
 });
 
-router.get("/regulation", authenticate, function (req, res) {
+router.get("/regulations", authenticate, function (req, res) {
   Regulation.getSection(req.query.section)
     .then((data) => {
       res.json(data);
@@ -102,7 +102,7 @@ router.get("/regulation", authenticate, function (req, res) {
     });
 });
 
-router.post("/admin/rules", authenticate, function (req, res) {
+router.post("/admin/regulations", authenticate, function (req, res) {
   Regulation.add(req.body)
     .then((data) => {
       res.json(data);
