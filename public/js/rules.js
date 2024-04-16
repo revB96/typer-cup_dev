@@ -13,7 +13,7 @@ function printRegulationsPoints() {
     getRegulationsBySection("points").then(async (points) => {
       $(`#regulations-list-points`).html("");
       points.forEach(async (result, index) => {
-        await $(`#regulations-list-rules`).append(`
+        await $(`#regulations-list-points`).append(`
         <li class="list-group-item ${result.color}">${result.content}</li>
         `);
       });
@@ -35,7 +35,7 @@ function printRegulationsSiteMap() {
     getRegulationsBySection("site_map").then(async (site_map) => {
       $(`#regulations-list-site_map`).html("");
       site_map.forEach(async (result, index) => {
-        await $(`#regulations-list-awards`).append(`
+        await $(`#regulations-list-site_map`).append(`
         <li class="list-group-item ${result.color}">${result.content}</li>
         `);
       });
