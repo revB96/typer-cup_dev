@@ -28,8 +28,8 @@ function authenticateAdmin(req, res, next) {
 
   jwt.verify(token, process.env.SECRET_TOKEN, (err, user) => {
     if(err)res.redirect("/login")
-    
-    if(req.user.user.role == "admin"){
+    console.log(user)
+    if(user.user.role == "admin"){
       req.user = user;
     }else{
       res.status(401).render("401", {
@@ -42,7 +42,6 @@ function authenticateAdmin(req, res, next) {
 }
 
 router.get("/", authenticate, async function (req, res, next) {
-  console.log(req.user.user.role)
   res.render("dashboard", {
     title: "Dashboard",
     user: req.user,
