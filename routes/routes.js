@@ -49,7 +49,6 @@ function getActiveEdition(){
 }
 
 router.get("/", authenticate, async function (req, res, next) {
-  var activeEdition = getActiveEdition();
   res.render("dashboard", {
     title: "Dashboard",
     user: req.user,
@@ -65,6 +64,7 @@ router.get("/roundSummary", authenticate, async function (req, res, next) {
     title: "Podsumowanie rundy",
     user: req.user,
     token: req.query.secret_token,
+    activeEdition: req.cookies.edition,
     lastRound: 1
   });
 })
@@ -72,6 +72,7 @@ router.get("/roundSummary", authenticate, async function (req, res, next) {
 router.get("/table", authenticate, async function (req, res) {
   res.render("table", {
     title: "Tabela",
+    activeEdition: req.cookies.edition,
     lastRound: 1
   });
 });
@@ -79,6 +80,7 @@ router.get("/table", authenticate, async function (req, res) {
 router.get("/euro", authenticate, async function (req, res) {
   res.render("euro", {
     title: "Mistrzostwa Świata 2022",
+    activeEdition: req.cookies.edition,
     lastRound: 1
 });
 })
@@ -86,6 +88,7 @@ router.get("/euro", authenticate, async function (req, res) {
 router.get("/rules", authenticate, async function (req, res) {
   res.render("rules", {
     title: "Regulamin i zasady",
+    activeEdition: req.cookies.edition,
     lastRound: 1
   });
 });
@@ -93,6 +96,7 @@ router.get("/rules", authenticate, async function (req, res) {
 router.get("/previousRound", authenticate, async function (req, res) {
   res.render("previousRounds", {
     title: "Poprzednie kolejki",
+    activeEdition: req.cookies.edition,
     lastRound: 1
   });
 });
@@ -100,6 +104,7 @@ router.get("/previousRound", authenticate, async function (req, res) {
 router.get("/admin", authenticateAdmin, async function (req, res) {
   res.render("admin", {
     title: "Admin",
+    activeEdition: req.cookies.edition,
     lastRound: 1
   });
 });
@@ -119,6 +124,7 @@ router.post("/login", async (req, res, next) => {
       if (error) return next(error);
 
       var edition = getActiveEdition()
+      console.log(edition)
 
       const body = {
         _id: user._id,
@@ -183,6 +189,7 @@ router.get("/progress", authenticate, function (req, res, next) {
 router.get("/profile", authenticate, async function (req, res, next) {
   res.render("profile", {
     title: "Profil",
+    activeEdition: req.cookies.edition,
     lastRound: 1
   });
 });
@@ -190,6 +197,7 @@ router.get("/profile", authenticate, async function (req, res, next) {
 router.get("/quiz", authenticate, async function (req, res, next) {
   res.render("quiz", {
     title: "Quiz",
+    activeEdition: req.cookies.edition,
     lastRound: 1
   });
 });
@@ -197,12 +205,14 @@ router.get("/quiz", authenticate, async function (req, res, next) {
 router.get("/quiz-summary", authenticate, async function (req, res, next) {
   res.render("quiz_summary", {
     title: "Podsumowanie Quizu",
+    activeEdition: req.cookies.edition,
   });
 });
 
 router.get("/hallOfFame", authenticate, async function (req, res, next) {
   res.render("hallOfFame", {
     title: "⭐ HALL OF FAME ⭐",
+    activeEdition: req.cookies.edition,
   });
 });
 
