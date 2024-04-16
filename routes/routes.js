@@ -55,7 +55,7 @@ router.get("/", authenticate, async function (req, res, next) {
     user: req.user,
     token: req.query.secret_token,
     lastRound: 1,
-    activeEdition: req.edition,
+    activeEdition: req.cookies.edition,
   });
 })
 
