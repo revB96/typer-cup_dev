@@ -52,7 +52,7 @@ router.get("/table", authenticate, async function (req, res) {
 
 router.get("/euro", authenticate, async function (req, res) {
   res.render("euro", {
-    title: "Mistrzostwa Świata 2022",
+    title: req.cookies.edition,
     activeEdition: req.cookies.edition,
     lastRound: 1
 });
