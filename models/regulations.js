@@ -6,6 +6,6 @@ var regulationSchema = new mongoose.Schema({
     content: String,
     color: String,
 });
-var RegulationSchema = mongoose.model('dictionary', regulationSchema);
+var RegulationSchema = mongoose.model('regulation', regulationSchema);
 
 module.exports = RegulationSchema;
