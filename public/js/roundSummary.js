@@ -20,10 +20,10 @@ function printRoundSummaryAccordion(){
                     var ticketsByDateKeys = Object.keys(ticketsByMatch);
                     $(`#round-summary-accordion`).html("")
                     
-                    var diff = Math.abs(new Date() - new Date(ticketsByMatch[match][0].schedule.matchDate));
-                    if (new Date() >new Date(ticketsByMatch[match][0].schedule.matchDate) || diff < 300000) {
                     ticketsByDateKeys.forEach(match => {
-                       
+                      console.log(match)
+                      var diff = Math.abs(new Date() - new Date(ticketsByMatch[match][0].schedule.matchDate));
+                      if (new Date() >new Date(ticketsByMatch[match][0].schedule.matchDate) || diff < 300000) {
                       var matchAccordion =`
                       <div class="accordion-item">
                           <h2 style="text-align: center" class="accordion-header" id="flush-heading-${ticketsByMatch[match][0]._id}">
@@ -80,8 +80,9 @@ function printRoundSummaryAccordion(){
                       </div>
                       `
                       $(`#round-summary-accordion`).append(matchAccordion)
+
+                    }
                     })
-                  }
               })
           })
 }
