@@ -50,7 +50,7 @@ router.get("/table", authenticate, async function (req, res) {
   });
 });
 
-router.get("/euro", authenticate, async function (req, res) {
+router.get("/games", authenticate, async function (req, res) {
   res.render("euro", {
     title: req.cookies.edition,
     activeEdition: req.cookies.edition,
