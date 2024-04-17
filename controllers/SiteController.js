@@ -16,52 +16,52 @@ const UserStat = require("../models/userStats");
 
 
 function prepareEdition(){
-    var nationalTeamsCollection = database.ListCollectionNames().ToList().Contains("nationalteams");
+    var nationalTeamsCollection = _database.ListCollectionNames().ToList().Contains("nationalteams");
     if (nationalTeamsCollection == true) {
         NationalTeam.collection.drop()
     }
 
-    var quizCollection = database.ListCollectionNames().ToList().Contains("quizzes");
+    var quizCollection = _database.ListCollectionNames().ToList().Contains("quizzes");
     if (quizCollection == true) {
         Quiz.collection.drop()
     }
 
-    var quizQuestionCollection = database.ListCollectionNames().ToList().Contains("quizquestions");
+    var quizQuestionCollection = _database.ListCollectionNames().ToList().Contains("quizquestions");
     if (quizQuestionCollection == true) {
         QuizQuestion.collection.drop()
     }
 
-    var quizCorrectAnswerCollection = database.ListCollectionNames().ToList().Contains("quizcorrectanswers");
+    var quizCorrectAnswerCollection = _database.ListCollectionNames().ToList().Contains("quizcorrectanswers");
     if (quizCorrectAnswerCollection == true) {
         QuizCorrectAnswer.collection.drop()
     }
 
-    var randomCodeCollection = database.ListCollectionNames().ToList().Contains("randomcodes");
+    var randomCodeCollection = _database.ListCollectionNames().ToList().Contains("randomcodes");
     if (randomCodeCollection == true) {
         randomCode.collection.drop()
     }
 
-    var roundCollection = database.ListCollectionNames().ToList().Contains("rounds");
+    var roundCollection = _database.ListCollectionNames().ToList().Contains("rounds");
     if (roundCollection == true) {
         Round.collection.drop()
     }
 
-    var scheduleCollection = database.ListCollectionNames().ToList().Contains("schedules");
+    var scheduleCollection = _database.ListCollectionNames().ToList().Contains("schedules");
     if (scheduleCollection == true) {
         Schedule.collection.drop()
     }
 
-    var scoreCollection = database.ListCollectionNames().ToList().Contains("scores");
+    var scoreCollection = _database.ListCollectionNames().ToList().Contains("scores");
     if (scoreCollection == true) {
         Score.collection.drop()
     }
 
-    var ticketCollection = database.ListCollectionNames().ToList().Contains("tickets");
+    var ticketCollection = _database.ListCollectionNames().ToList().Contains("tickets");
     if (ticketCollection == true) {
         Ticket.collection.drop()
     }
 
-    var userStatsCollection = database.ListCollectionNames().ToList().Contains("userstats");
+    var userStatsCollection = _database.ListCollectionNames().ToList().Contains("userstats");
     if (userStatsCollection == true) {
         UserStat.collection.drop()
     }
