@@ -27,9 +27,19 @@ const UserStat = require("../models/userStats");
 
 function prepareEdition(){
     mongoose.connection.db.listCollections().toArray(function (err, names) {
-        console.log(names)
+        for (i = 0; i < names.length; i++) {
+            if(names[i].name == "nationalteams") NationalTeam.collection.drop()
+            if(names[i].name == "quizzes") Quiz.collection.drop()
+            if(names[i].name == "quizquestions") QuizQuestion.collection.drop()
+            if(names[i].name == "quizcorrectanswers") QuizCorrectAnswer.collection.drop()
+            if(names[i].name == "randomcodes") randomCode.collection.drop()
+            if(names[i].name == "rounds") Round.collection.drop()
+            if(names[i].name == "schedules") Schedule.collection.drop()
+            if(names[i].name == "scores") Score.collection.drop()
+            if(names[i].name == "tickets") Ticket.collection.drop()
+            if(names[i].name == "userstats") UserStat.collection.drop()
+        }
     })
-
 }
 
 
