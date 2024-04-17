@@ -15,6 +15,60 @@ const Ticket = require("../models/tickets");
 const UserStat = require("../models/userStats");
 
 
+function prepareEdition(){
+    var nationalTeamsCollection = database.ListCollectionNames().ToList().Contains("nationalteams");
+    if (nationalTeamsCollection == true) {
+        NationalTeam.collection.drop()
+    }
+
+    var quizCollection = database.ListCollectionNames().ToList().Contains("quizzes");
+    if (quizCollection == true) {
+        Quiz.collection.drop()
+    }
+
+    var quizQuestionCollection = database.ListCollectionNames().ToList().Contains("quizquestions");
+    if (quizQuestionCollection == true) {
+        QuizQuestion.collection.drop()
+    }
+
+    var quizCorrectAnswerCollection = database.ListCollectionNames().ToList().Contains("quizcorrectanswers");
+    if (quizCorrectAnswerCollection == true) {
+        QuizCorrectAnswer.collection.drop()
+    }
+
+    var randomCodeCollection = database.ListCollectionNames().ToList().Contains("randomcodes");
+    if (randomCodeCollection == true) {
+        randomCode.collection.drop()
+    }
+
+    var roundCollection = database.ListCollectionNames().ToList().Contains("rounds");
+    if (roundCollection == true) {
+        Round.collection.drop()
+    }
+
+    var scheduleCollection = database.ListCollectionNames().ToList().Contains("schedules");
+    if (scheduleCollection == true) {
+        Schedule.collection.drop()
+    }
+
+    var scoreCollection = database.ListCollectionNames().ToList().Contains("scores");
+    if (scoreCollection == true) {
+        Score.collection.drop()
+    }
+
+    var ticketCollection = database.ListCollectionNames().ToList().Contains("tickets");
+    if (ticketCollection == true) {
+        Ticket.collection.drop()
+    }
+
+    var userStatsCollection = database.ListCollectionNames().ToList().Contains("userstats");
+    if (userStatsCollection == true) {
+        UserStat.collection.drop()
+    }
+
+}
+
+
 function addEdition(formData){
     var def = Q.defer();
     var edition = new Edition({
@@ -75,16 +129,7 @@ async function setActiveEdition(formData){
             console.log("Ustawiono nową aktualną edycji")
             console.log(edition)
             console.log("***")
-            NationalTeam.collection.drop()
-            Quiz.collection.drop();
-            QuizQuestion.collection.drop();
-            QuizCorrectAnswer.collection.drop();
-            randomCode.collection.drop();
-            Round.collection.drop();
-            Schedule.collection.drop();
-            Score.collection.drop();
-            Ticket.collection.drop();
-            UserStat.collection.drop();
+            prepareEdition()
             def.resolve(edition)
         }
     })
