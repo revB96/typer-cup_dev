@@ -102,7 +102,7 @@ function printQuiz() {
 }
 
 $(document).ready(function () {
-  if (document.title == "Typer Cup-DEV | Quiz") {
+  if (window.location.pathname === '/quiz') {
     printQuiz();
 
     $("#save-user-quiz-form").submit(function (e) {

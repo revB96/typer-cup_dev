@@ -80,7 +80,7 @@ function printRoundSummaryAccordion() {
  
 
 $(document).ready(function () {
-  if (document.title == "Typer Cup-DEV | Podsumowanie rundy") {
+  if (window.location.pathname === '/roundSummary') {
     printRoundSummaryAccordion();
   }
 });

@@ -811,7 +811,7 @@ function adminPrintEditionsList() {
 }
 
 $(document).ready(function () {
-  if (document.title == "Typer Cup-DEV | Admin") {
+  if (window.location.pathname === '/admin') {
     adminGetAllRandomCodes();
     adminSelectTeams();
     adminListTeams();

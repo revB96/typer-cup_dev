@@ -207,7 +207,7 @@ function verifyValue() {
 
 $(document).ready(function () {
   $(`#dashboard-round-matches`).html("Brak aktywnych kolejek");
-  if (document.title == "Typer Cup-DEV | Dashboard") {
+  if (window.location.pathname === '/') {
     printRoundWithMatches();
 
     $("#add-ticket-form").submit(function (e) {

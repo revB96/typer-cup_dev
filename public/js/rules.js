@@ -43,7 +43,7 @@ function printRegulationsSiteMap() {
 }
 
 $(document).ready(function () {
-    if (document.title == "Typer Cup-DEV | Regulamin i zasady") {
+    if (window.location.pathname === '/rules') {
         printRegulationsRules()
         printRegulationsPoints()
         printRegulationsAwards()
