@@ -14,57 +14,21 @@ const Score = require("../models/scores");
 const Ticket = require("../models/tickets");
 const UserStat = require("../models/userStats");
 
+// NationalTeam.collection.drop()
+// Quiz.collection.drop();
+// QuizQuestion.collection.drop();
+// QuizCorrectAnswer.collection.drop();
+// randomCode.collection.drop();
+// Round.collection.drop();
+// Schedule.collection.drop();
+// Score.collection.drop();
+// Ticket.collection.drop();
+// UserStat.collection.drop();
 
 function prepareEdition(){
-    var nationalTeamsCollection = _database.ListCollectionNames().ToList().Contains("nationalteams");
-    if (nationalTeamsCollection == true) {
-        NationalTeam.collection.drop()
-    }
-
-    var quizCollection = _database.ListCollectionNames().ToList().Contains("quizzes");
-    if (quizCollection == true) {
-        Quiz.collection.drop()
-    }
-
-    var quizQuestionCollection = _database.ListCollectionNames().ToList().Contains("quizquestions");
-    if (quizQuestionCollection == true) {
-        QuizQuestion.collection.drop()
-    }
-
-    var quizCorrectAnswerCollection = _database.ListCollectionNames().ToList().Contains("quizcorrectanswers");
-    if (quizCorrectAnswerCollection == true) {
-        QuizCorrectAnswer.collection.drop()
-    }
-
-    var randomCodeCollection = _database.ListCollectionNames().ToList().Contains("randomcodes");
-    if (randomCodeCollection == true) {
-        randomCode.collection.drop()
-    }
-
-    var roundCollection = _database.ListCollectionNames().ToList().Contains("rounds");
-    if (roundCollection == true) {
-        Round.collection.drop()
-    }
-
-    var scheduleCollection = _database.ListCollectionNames().ToList().Contains("schedules");
-    if (scheduleCollection == true) {
-        Schedule.collection.drop()
-    }
-
-    var scoreCollection = _database.ListCollectionNames().ToList().Contains("scores");
-    if (scoreCollection == true) {
-        Score.collection.drop()
-    }
-
-    var ticketCollection = _database.ListCollectionNames().ToList().Contains("tickets");
-    if (ticketCollection == true) {
-        Ticket.collection.drop()
-    }
-
-    var userStatsCollection = _database.ListCollectionNames().ToList().Contains("userstats");
-    if (userStatsCollection == true) {
-        UserStat.collection.drop()
-    }
+    mongoose.connection.db.listCollections().toArray(function (err, names) {
+        console.log(names)
+    })
 
 }
 
@@ -129,7 +93,7 @@ async function setActiveEdition(formData){
             console.log("Ustawiono nową aktualną edycji")
             console.log(edition)
             console.log("***")
-            prepareEdition()
+            prepareEdition();
             def.resolve(edition)
         }
     })
