@@ -11,7 +11,7 @@ const Round = require("../models/rounds");
 const Schedule = require("../models/schedule");
 const Score = require("../models/scores");
 const Ticket = require("../models/tickets");
-const UserStat = require("../models/usersStats");
+const UserStat = require("../models/userStats");
 
 
 function addEdition(formData){
