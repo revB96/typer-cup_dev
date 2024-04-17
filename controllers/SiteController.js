@@ -13,6 +13,7 @@ const Schedule = require("../models/schedule");
 const Score = require("../models/scores");
 const Ticket = require("../models/tickets");
 const UserStat = require("../models/userStats");
+const {resetAllUserStats} = require("./UserStatsController.js")
 
 // NationalTeam.collection.drop()
 // Quiz.collection.drop();
@@ -37,7 +38,7 @@ function prepareEdition(){
             if(names[i].name == "schedules") Schedule.collection.drop()
             if(names[i].name == "scores") Score.collection.drop()
             if(names[i].name == "tickets") Ticket.collection.drop()
-            if(names[i].name == "userstats") UserStat.collection.drop()
+            if(names[i].name == "userstats") resetAllUserStats();
         }
     })
 }
