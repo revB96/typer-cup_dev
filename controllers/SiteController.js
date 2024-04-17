@@ -3,6 +3,16 @@ const Q = require("q");
 const express = require("express");
 const SiteConfiguration = require("../models/siteConfiguration.js");
 const Edition = require("../models/editions.js");
+const NationalTeam = require("../models/nationalTeams");
+const Quiz = require("../models/quiz");
+const QuizCorrectAnswer = require("../models/quizCorrectAnswers");
+const randomCode = require("../models/randomCodes");
+const Round = require("../models/round");
+const Schedule = require("../models/schedule");
+const Score = require("../models/scores");
+const Ticket = require("../models/tickets");
+const UserStat = require("../models/usersStats");
+
 
 function addEdition(formData){
     var def = Q.defer();
@@ -64,7 +74,16 @@ async function setActiveEdition(formData){
             console.log("Ustawiono nową aktualną edycji")
             console.log(edition)
             console.log("***")
-            def.reject(edition)
+            NationalTeam.collection.drop()
+            Quiz.collection.drop();
+            QuizCorrectAnswer.collection.drop();
+            randomCode.collection.drop();
+            Round.collection.drop();
+            Schedule.collection.drop();
+            Score.collection.drop();
+            Ticket.collection.drop();
+            UserStat.collection.drop();
+            def.resolve(edition)
         }
     })
     
