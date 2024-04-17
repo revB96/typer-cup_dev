@@ -5,6 +5,7 @@ const SiteConfiguration = require("../models/siteConfiguration.js");
 const Edition = require("../models/editions.js");
 const NationalTeam = require("../models/nationalTeams");
 const Quiz = require("../models/quiz");
+const QuizQuestions = require("../models/quizQuestions");
 const QuizCorrectAnswer = require("../models/quizCorrectAnswers");
 const randomCode = require("../models/randomCodes");
 const Round = require("../models/rounds");
