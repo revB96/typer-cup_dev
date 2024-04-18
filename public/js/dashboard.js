@@ -91,17 +91,16 @@ function printRoundWithMatches() {
 
                 //Countdown
                 var coundownString="Do zamknięcia meczu: "
-                var countDownDate = new Date(timeMatch).getTime();
                 var now = new Date().getTime();
-                var distance = countDownDate - now;
+                var distance = timeMatch - now;
                 var days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                if(days>0) coundownString =+ `${days} d`
-                if(hours>0) coundownString =+ `${hours} h`
-                if(minutes>0) coundownString =+ `${minutes} m`
-                if(seconds>0) coundownString =+ `${seconds} s`
+                if(days>0) coundownString += `${days} d`
+                if(hours>0) coundownString += `${hours} h`
+                if(minutes>0) coundownString += `${minutes} m`
+                if(seconds>0) coundownString += `${seconds} s`
                 //
                 await $(`#dashboard-round-matches`).append(`
                   <div class="col" style="margin-right: 0;">
@@ -109,7 +108,7 @@ function printRoundWithMatches() {
                       <div class="card-body">
                           <p class="card-text">
                             ${group}
-                            <small>${hrs - timeoffset}:${mins}</small>
+                            <small>${hrs - timeoffset}:${mins}</small><br/>
                             <small>${coundownString}</small>
                           </p>
                           <h5 class="card-title" style="text-align: center;">
