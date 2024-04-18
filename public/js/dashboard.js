@@ -89,19 +89,6 @@ function printRoundWithMatches() {
 
                 var group = `<b>Grupa ${match.group}</b><br />`;
 
-                //Countdown
-                var coundownString="Do zamknięcia: "
-                var now = new Date().getTime();
-                var distance = timeMatch - now;
-                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                if(days>0) coundownString += `${days} d`
-                if(hours>0) coundownString += `${hours} h `
-                if(minutes>0) coundownString += `${minutes} m `
-                if(seconds>0) coundownString += `${seconds} s`
-                //
                 await $(`#dashboard-round-matches`).append(`
                   <div class="col" style="margin-right: 0;">
                   <div class="card ${ticketColor}">
@@ -224,11 +211,6 @@ $(document).ready(function () {
   $(`#dashboard-round-matches`).html("Brak aktywnych kolejek");
   if (window.location.pathname === '/') {
     printRoundWithMatches();
-  
-      setInterval(function () {
-          $( "#dashboard-round-matches" ).load(window.location.href + "#dashboard-round-matches" );
-      }, 3000);
-
 
     $("#add-ticket-form").submit(function (e) {
       e.preventDefault();
