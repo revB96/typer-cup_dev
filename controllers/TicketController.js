@@ -12,6 +12,7 @@ const nodemailer = require("nodemailer");
 const {sendNotificationToUser} = require("./UserNotificationController");
 const Chance = require('chance');
 const { getScheduleById } = require("./ScheduleController.js");
+const db = mongoose.connection;
 
 let transporter = nodemailer.createTransport({
   host: "smtp.x999.mikr.dev",
@@ -476,7 +477,7 @@ async function payForTicketsAfterMatch(scheduleId, t1g, t2g, winTeam) {
     }
   })
 
-  await mongoose.connection.db.getCollection('userstats').aggregate([{ $out : "lastroundstats" }]);
+  await db.getCollection('userstats').aggregate([{ $out : "lastroundstats" }]);
 
   await getTicketsBySchedule(scheduleId).then((tickets) => {
     tickets.forEach((ticket) => {
