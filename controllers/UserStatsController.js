@@ -6,7 +6,6 @@ const CorrectAnswer = require("../models/quizCorrectAnswers");
 const User = require("./UserController")
 const moment = require('moment-timezone');
 
-
 function add(userId){
    const timestamp = moment.tz(Date.now(), "Europe/Warsaw")
 

@@ -348,7 +348,6 @@ function valideTicket(matchId){
       def.resolve(0);
     }
   })
-  console.log(def)
   return def.promise;
 }
 
@@ -470,6 +469,15 @@ function getTicketsBySchedule(scheduleId) {
 }
 
 async function payForTicketsAfterMatch(scheduleId, t1g, t2g, winTeam) {
+
+  await mongoose.connection.db.listCollections().toArray(function (err, names) {
+    for(i = 0; i < names.length; i++) {
+        if(names[i].name == "lastroundstats") NationalTeam.collection.drop()
+    }
+  })
+
+  await mongoose.connection.db.getCollection('userstats').aggregate([{ $out : "lastroundstats" }]);
+
   await getTicketsBySchedule(scheduleId).then((tickets) => {
     tickets.forEach((ticket) => {
       var userWinTeam = "";
