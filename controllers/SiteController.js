@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Q = require("q");
 const express = require("express");
-const SiteConfiguration = require("../models/siteConfiguration.js");
+const SiteConfig = require("../models/siteConfigs.js");
 const Edition = require("../models/editions.js");
 const NationalTeam = require("../models/nationalTeams");
 const Quiz = require("../models/quiz");
@@ -158,10 +158,61 @@ function setTransferedEdition(editionId){
     return def.promise;
 }
 
+function getSiteConfig(configName) {
+    var def = Q.defer();
+    SiteConfig.findOne({configName: configName}).exec(function (
+      err,
+      config
+    ) {
+      err ? def.reject(err) : def.resolve(config);
+    });
+    return def.promise;
+  }
+
+function getAllSiteConfigs() {
+    var def = Q.defer();
+    SiteConfig
+        .find()
+        .sort({configName: "asc"})
+        .exec(function (err, result) {
+            err ? def.reject(err) : def.resolve(result);
+    });
+    return def.promise;
+  }
+
+function addSiteConfig(formData) {
+    var def = Q.defer();
+
+    var config = new SiteConfig({
+        configName: formData.configName,
+        state: formData.state,
+        value: formData.participavaluents,
+      });
+
+      config.save(function (err, result) {
+        if(err){
+            console.log(err);
+            def.reject(err);
+        }else{
+            def.resolve(config);
+            console.log("***")
+            console.log("Dodano nowe ustawienie")
+            console.log(result)
+            console.log("***")
+        }
+
+      });
+
+    return def.promise;
+}
+
 module.exports = {
     setActiveEdition,
     getAllEditions,
     getCurrentEdition,
     addEdition,
-    setTransferedEdition
+    setTransferedEdition,
+    getSiteConfig,
+    addSiteConfig,
+    getAllSiteConfigs
 }

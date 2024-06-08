@@ -2,10 +2,7 @@ function printRoundWithMatches() {
   const dateOptions = { year: "numeric", month: "numeric", day: "numeric" };
 
   getRound("running").then((round) => {
-    $(`#dashboard-round-matches`)
-      .html(`<div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>`);
+  
     $(`#dashboard-round-display-name`).html(`${round[0].displayName}`);
     $(`#dashboard-message`).html(
       `<a href="/roundSummary"><button type="button" class="btn btn-primary">Sprawdź jak postawili inni</button></a>`
@@ -32,6 +29,7 @@ function printRoundWithMatches() {
                   t2g = "",
                   statsDiv = "",
                   ticketColor = "text-white bg-danger";
+                  tipInfo = '<b style="color:red">CZERWONY</b> - Mecz otwarty, nie zapisałeś jeszcze typów na to spotkanie.'
 
                 if (stats.counter > 2) {
                   statsDiv = `<div class="row" style="margin-top: 20px;"><div class="progress" style="background: none; height: 20px;">`;
@@ -62,6 +60,7 @@ function printRoundWithMatches() {
                       t1g = userTicket.t1g;
                       t2g = userTicket.t2g;
                       ticketColor = "text-white bg-success";
+                      tipInfo = '<b style="color:green">ZIELONY</b> - Mecz otwarty, wysłałeś na niego typy, ale możesz nadal je modyfikować <br />'
                     }
                   }
                 }
@@ -74,11 +73,13 @@ function printRoundWithMatches() {
                   if(diff < 300000 ){ 
                     matchState = "disabled"
                     ticketColor = "text-white bg-secondary"
+                    tipInfo = '<b style="color:gray">SZARY</b> - Mecz zamknięty, nie możesz wysyłać/aktualizować typów na to spotkanie'
                   }
                 }
                 if(new Date() > new Date(match.matchDate)){
                   matchState = "disabled"
                   ticketColor = "text-white bg-secondary"
+                  tipInfo = '<b style="color:gray">SZARY</b> - Mecz zamknięty, nie możesz wysyłać/aktualizować typów na to spotkanie'
                 }
           
                 var hrs = timeMatch.getHours();
@@ -93,9 +94,16 @@ function printRoundWithMatches() {
                   <div class="col" style="margin-right: 0;">
                   <div class="card ${ticketColor}">
                       <div class="card-body">
+                      <i style='float: right' id="help-${match._id}" class="bi bi-info-circle"></i>
+                            <script>
+                              tippy('#help-${match._id}', {
+                                content: '${tipInfo}',
+                                allowHTML: true
+                              });
+                            </script>
                           <p class="card-text">
                             ${group}
-                            <small>${hrs - timeoffset}:${mins}</small><br/>
+                            <small>${hrs}:${mins}</small><br/>
                           </p>
                           <h5 class="card-title" style="text-align: center;">
                               <div class="row">
@@ -122,7 +130,7 @@ function printRoundWithMatches() {
                                     match.t1._id
                                   }" type="number" value="${t1g}" class="form-control" min="0" max="9" style="text-align: center;" name="${
                   match.t1._id
-                }" ${matchState} required>
+                }" ${matchState}>
                               </div>
                               <div class="col-1">:
                               </div>
@@ -131,7 +139,7 @@ function printRoundWithMatches() {
                                     match.t2._id
                                   }" type="number" value="${t2g}" class="form-control" min="0" max="9" style="text-align: center;" name="${
                   match.t2._id
-                }" ${matchState} required>
+                }" ${matchState}>
                               </div>
                           </div>
                           ${statsDiv}

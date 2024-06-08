@@ -683,6 +683,38 @@ router.get("/admin/site/edition/get", authenticate, function (req, res) {
     });
 });
 
+router.post("/admin/site/config", authenticate, function (req, res) {
+  Site.addSiteConfig(req.body)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+    
+});
+
+router.get("/admin/site/config", authenticate, function (req, res) {
+  Site.getSiteConfig(req.query.name)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+router.get("/admin/site/config/all", authenticate, function (req, res) {
+  Site.getAllSiteConfigs()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+
 router.get("/edition", authenticate, function (req, res) {
     Site.getCurrentEdition()
       .then((data) => {

@@ -73,7 +73,7 @@ app.use("/", routes);
 app.use(express.static('public'))
 
 /*Run Server*/
-app.listen(9081, function () {
+app.listen(8081, function () {
     User.addAdmin();
     console.log("Server is running at 9081 port...");
 })

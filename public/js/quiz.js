@@ -4,18 +4,18 @@ function printQuiz() {
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>`);
-  getQuestions().then(async (questions) => {
-    await getUserAnswers(getUserId()).then(async (userQuestions) => {
-      getUserCorrectAnswers(getUserId()).then(async (userCorrectAnswer) => {
+   getQuestions().then(async (questions) => {
+     await getUserAnswers(getUserId()).then(async (userQuestions) => {
+       getUserCorrectAnswers(getUserId()).then(async (userCorrectAnswer) => {
         $("#quiz-cards").html("")
         for await (const [index, question] of Object.entries(questions)) {
-          getDictionaryByType(question.dictionary).then((questionDictionary) => {
+          await getDictionaryByType(question.dictionary).then(async (questionDictionary) => {
           var points = 0,
               background = "",
               footer = "";
               checked =  "❌";
           if(!!userCorrectAnswer){
-              for (const [index2, correctAnswer] of Object.entries(userCorrectAnswer)){
+              for await (const [index2, correctAnswer] of Object.entries(userCorrectAnswer)){
                 //console.log(question._id, correctAnswer.question)
                   if (question._id == correctAnswer.question) {
                     points += 0.5;
@@ -42,7 +42,6 @@ function printQuiz() {
                                   <option value="no">NIE</option>`;
 
             if (question.closed == true) {
-              $("#quiz-summary-button").html(`<a href="https://typer-cup.pl/quiz-summary" class="btn btn-primary btn-sm" role="button">Sprawdź jak odpowiadali inni</a>`)
               closed = "disabled";
               $("#save-user-quiz-button").addClass(closed);
               $("#save-user-quiz-button").addClass("btn-danger");
@@ -74,14 +73,17 @@ function printQuiz() {
             }else{
               questionType = `<input value="${answer}" list="${question._id}-answers" type="text" class="form-control" style="text-align-last: center;" name="${question._id}" ${closed}>
                               <datalist id="${question._id}-answers">`;
-              for (const [index, dictionary] of Object.entries(questionDictionary)) {
+              for await (const [index, dictionary] of Object.entries(questionDictionary)) {
+                if(dictionary.param2 != "")
+                  questionType += `<option value="${dictionary.param1} | ${dictionary.param2}">`;
+                else
                   questionType += `<option value="${dictionary.param1}">`;
               }
 
               questionType += `</datalist>`;
               
             }
-            $("#quiz-cards").append(`
+            await $("#quiz-cards").append(`
                         <div class="card text-center mt-3 ${background}">
                         <div class="card-header">
                             Pytanie #${counter} ${checked}
@@ -101,10 +103,18 @@ function printQuiz() {
   });
 }
 
+function printQuizSummaryButton(){
+  getSiteConfigs("quizSummaryButton").then(async (buttonConfig) => {
+    if(buttonConfig.state == true){
+      $("#quiz-summary-button").html(`<a href="https://typer-cup.pl/quiz-summary" class="btn btn-primary btn-sm" role="button">Sprawdź jak odpowiadali inni</a>`)
+    }
+  })
+}
+
 $(document).ready(function () {
   if (window.location.pathname === '/quiz') {
     printQuiz();
-
+    printQuizSummaryButton();
     $("#save-user-quiz-form").submit(function (e) {
       e.preventDefault();
       const formData = $("#save-user-quiz-form").serializeArray();
